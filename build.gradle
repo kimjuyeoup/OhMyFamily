@@ -55,10 +55,10 @@ jib {
 		image = "openjdk:17-alpine"
 	}
 	to {
-		image = "artstoryage/api"
+		image = "ohmyfamily/api"
 		tags = ["latest"]
 		auth {
-			username = 'artstoryage'
+			username = 'ohmyfamily'
 			password = System.getenv('DOCKERHUB_PASSWORD') ?: ''
 		}
 	}
