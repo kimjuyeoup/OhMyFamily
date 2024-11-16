@@ -21,7 +21,4 @@ public class Member {
 
   @Column(name = "kakao_nickname")
   private String kakaoNickname;
-
-  @Column(name = "nickname")
-  private String nickname;
 }
