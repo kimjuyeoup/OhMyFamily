@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-  private final String[] allowedUrls = {"/h2-console/**", "/**"};
+  private final String[] allowedUrls = {"/h2-console/**", "/**", "api/v1/**"};
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
