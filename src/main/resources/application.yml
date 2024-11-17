@@ -44,8 +44,3 @@ oauth:
     url:
       auth: https://kauth.kakao.com
       api: https://kapi.kakao.com
-
----
-logging:
-  level:
-    org.springframework.security: DEBUG
