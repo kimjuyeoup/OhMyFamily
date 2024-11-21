@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.domain.member.service.MemberCommandService;
 import com.example.demo.global.exception.BaseResponse;
 import com.example.demo.global.kakao.KakaoLoginParams;
+import com.example.demo.global.kakao.KakaoReissueParams;
 import com.example.demo.global.oAuth.AuthTokens;
 
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class MemberController {
   @PostMapping("/kakao")
   public BaseResponse<AuthTokens> loginKakao(@RequestBody KakaoLoginParams params) {
     return BaseResponse.onSuccess(memberCommandService.login(params));
+  }
+
+  @PostMapping("/reissue")
+  public BaseResponse<AuthTokens> reissue(@RequestBody KakaoReissueParams params) {
+    return BaseResponse.onSuccess(memberCommandService.reissue(params));
   }
 }

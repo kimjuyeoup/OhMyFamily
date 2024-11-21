@@ -1,15 +1,18 @@
 package com.example.demo.global.jwt;
 
 import java.security.Key;
+import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.example.demo.global.exception.GlobalErrorCode;
+import com.example.demo.global.exception.GlobalException;
+
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
@@ -17,18 +20,52 @@ import io.jsonwebtoken.security.Keys;
 public class JwtTokenProvider {
 
   private final Key key;
+  private final RedisTemplate<String, String> redisTemplate;
+  private final long accessTokenValidityMilliseconds;
+  private final long refreshTokenValidityMilliseconds;
 
-  public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+  public JwtTokenProvider(
+      @Value("${jwt.secret}") String secretKey,
+      RedisTemplate<String, String> redisTemplate,
+      @Value("${jwt.access-token-validity}") final long accessTokenValidityMilliseconds,
+      @Value("${jwt.refresh-token-validity}") final long refreshTokenValidityMilliseconds) {
     byte[] keyBytes = Decoders.BASE64.decode(secretKey);
     this.key = Keys.hmacShaKeyFor(keyBytes);
+    this.redisTemplate = redisTemplate;
+    this.accessTokenValidityMilliseconds = accessTokenValidityMilliseconds;
+    this.refreshTokenValidityMilliseconds = refreshTokenValidityMilliseconds;
   }
 
-  public String generate(String subject, Date expiredAt) {
+  private String generateToken(Long userId, long validityMilliseconds) {
+    Claims claims = Jwts.claims();
+
+    ZonedDateTime now = ZonedDateTime.now();
+    ZonedDateTime tokenValidity = now.plusSeconds(validityMilliseconds / 1000);
+
     return Jwts.builder()
-        .setSubject(subject)
-        .setExpiration(expiredAt)
-        .signWith(key, SignatureAlgorithm.HS512)
+        .setClaims(claims)
+        .setSubject(userId.toString())
+        .setIssuedAt(Date.from(now.toInstant()))
+        .setExpiration(Date.from(tokenValidity.toInstant()))
+        .setIssuer("OMF")
+        .signWith(key, SignatureAlgorithm.HS256)
         .compact();
+  }
+
+  public String generateAccessToken(Long userId) {
+    return generateToken(userId, accessTokenValidityMilliseconds);
+  }
+
+  public String generateRefreshToken(Long userId) {
+    String refreshToken = generateToken(userId, refreshTokenValidityMilliseconds);
+    redisTemplate
+        .opsForValue()
+        .set(
+            userId.toString(),
+            refreshToken,
+            refreshTokenValidityMilliseconds,
+            TimeUnit.MILLISECONDS);
+    return refreshToken;
   }
 
   public String extractSubject(String accessToken) {
@@ -42,5 +79,32 @@ public class JwtTokenProvider {
     } catch (ExpiredJwtException e) {
       return e.getClaims();
     }
+  }
+
+  private Jws<Claims> getClaims(String token) {
+    return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+  }
+
+  public boolean isTokenValid(String token) {
+    try {
+      Jws<Claims> claims = getClaims(token);
+      Date expiredDate = claims.getBody().getExpiration();
+      return expiredDate.after(new Date());
+    } catch (ExpiredJwtException e) {
+      throw new RuntimeException();
+    } catch (SecurityException
+        | MalformedJwtException
+        | UnsupportedJwtException
+        | IllegalArgumentException e) {
+      throw new RuntimeException();
+    }
+  }
+
+  public Long parseRefreshToken(String token) {
+    if (isTokenValid(token)) {
+      Claims claims = getClaims(token).getBody();
+      return Long.parseLong(claims.getSubject());
+    }
+    throw new GlobalException(GlobalErrorCode.NOT_FOUND_MEMBER);
   }
 }
