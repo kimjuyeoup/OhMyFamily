@@ -2,6 +2,8 @@ package com.example.demo.domain.Question.entity;
 
 import jakarta.persistence.*;
 
+import com.example.demo.domain.member.entity.Member;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,9 +49,9 @@ public class QuestionEntity {
   @Column(name = "icon")
   private String icon;
 
-  /*@ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "quiz_id")
-  private Quiz quiz;*/
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member")
+  private Member member;
 
   public QuestionEntity(
       String type,

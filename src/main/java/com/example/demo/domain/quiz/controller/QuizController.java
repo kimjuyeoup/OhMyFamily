@@ -4,8 +4,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.domain.quiz.dto.request.SetQuizNicknameRequest;
 import com.example.demo.domain.quiz.dto.response.SetQuizNicknameResponse;
+import com.example.demo.domain.quiz.repository.QuizRepository;
 import com.example.demo.domain.quiz.service.QuizCommandService;
 import com.example.demo.global.exception.BaseResponse;
+import com.example.demo.global.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/quiz")
 public class QuizController {
+
+  private final QuizRepository quizRepository;
+  private final JwtTokenProvider jwtTokenProvider;
 
   private final QuizCommandService quizCommandService;
 
@@ -22,4 +27,15 @@ public class QuizController {
       @RequestBody SetQuizNicknameRequest request) {
     return BaseResponse.onSuccess(quizCommandService.setQuizNickname(accessToken, request));
   }
+
+  /*@GetMapping("/search")
+  public ResponseEntity<List<Quiz>> getData(@RequestHeader("Authorization") String token) {
+    String accessToken = token.replace("Bearer ", "");
+
+    Long userId = Long.parseLong(jwtTokenProvider.extractSubject(accessToken));
+
+    List<Quiz> data = quizRepository.findByUserId(userId);
+
+    return ResponseEntity.ok(data);
+  }*/
 }

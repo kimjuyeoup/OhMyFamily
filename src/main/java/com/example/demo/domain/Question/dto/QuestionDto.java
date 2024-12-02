@@ -3,11 +3,11 @@ package com.example.demo.domain.Question.dto;
 public class QuestionDto {
   private Long id;
   private String title;
-  private String content;
+  private Object content;
   private String type;
   private String icon;
 
-  public QuestionDto(Long id, String type, String title, String content, String icon) {
+  public QuestionDto(Long id, String type, String title, Object content, String icon) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -31,14 +31,6 @@ public class QuestionDto {
     this.title = title;
   }
 
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
-
   public String getType() {
     return type;
   }
@@ -53,5 +45,13 @@ public class QuestionDto {
 
   public void setIcon(String icon) {
     this.icon = icon;
+  }
+
+  public Object getContent() {
+    return content;
+  }
+
+  public void setContent(Object content) {
+    this.content = content;
   }
 }
