@@ -10,6 +10,7 @@ import com.example.demo.domain.Question.dto.QuestionDto;
 import com.example.demo.domain.Question.dto.ScoreDto;
 import com.example.demo.domain.Question.dto.SubmitDto;
 import com.example.demo.domain.Question.service.QuestionService;
+import com.example.demo.domain.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 public class QuestionController {
   private final QuestionService questionService;
+  private final MemberRepository memberRepository;
 
   @GetMapping("/question")
   public List<QuestionDto> getAllQuestions(@RequestParam String name) {

@@ -4,4 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.domain.quiz.entity.Quiz;
 
-public interface QuizRepository extends JpaRepository<Quiz, Long> {}
+public interface QuizRepository extends JpaRepository<Quiz, Long> {
+  // List<Quiz> findByUserId(Long userId);
+}

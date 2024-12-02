@@ -11,14 +11,18 @@ import org.springframework.stereotype.Service;
 import com.example.demo.domain.Question.dto.*;
 import com.example.demo.domain.Question.entity.QuestionEntity;
 import com.example.demo.domain.Question.repository.QuestionRepository;
+import com.example.demo.domain.quiz.entity.Quiz;
+import com.example.demo.domain.quiz.repository.QuizRepository;
 
 @Service
 public class QuestionService {
 
   private final QuestionRepository questionRepository;
+  private final QuizRepository quizRepository;
 
-  public QuestionService(QuestionRepository questionRepository) {
+  public QuestionService(QuestionRepository questionRepository, QuizRepository quizRepository) {
     this.questionRepository = questionRepository;
+    this.quizRepository = quizRepository;
   }
 
   public List<QuestionDto> getQuestionsByName(String name) {
@@ -102,7 +106,7 @@ public class QuestionService {
     questionRepository.save(
         new QuestionEntity(
             "input",
-            name + "가 가장 이루고 싶은 소원은 무엇일까요?",
+            name + "가\n 가장 이루고 싶은 소원은 무엇일까요?",
             false,
             "",
             "로또 당첨... 로또 당첨... 로또 당첨... 더보기",
@@ -112,7 +116,7 @@ public class QuestionService {
             9L));
     questionRepository.save(
         new QuestionEntity(
-            "input", name + "가 생각하는 현재 나의 모습은 어떨까요?", false, "", "", "think", 20L, name, 10L));
+            "input", name + "가\n 생각하는 현재 나의 모습은 어떨까요?", false, "", "", "think", 20L, name, 10L));
     questionRepository.save(
         new QuestionEntity(
             "upload",
@@ -128,13 +132,19 @@ public class QuestionService {
     List<QuestionEntity> questions = questionRepository.findByName(name);
     return questions.stream()
         .map(
-            question ->
-                new QuestionDto(
-                    question.getNumber(),
-                    question.getType(),
-                    question.getTitle(),
-                    question.getContent(),
-                    question.getIcon()))
+            question -> {
+              Object content =
+                  question.getType().equals("select")
+                      ? question.getContent().split(", ")
+                      : question.getContent();
+
+              return new QuestionDto(
+                  question.getNumber(),
+                  question.getType(),
+                  question.getTitle(),
+                  content,
+                  question.getIcon());
+            })
         .collect(Collectors.toList());
   }
 
@@ -179,9 +189,15 @@ public class QuestionService {
       }
     }
     Long score = questionRepository.findAllScore();
-    String icon = "P" + score;
 
-    return new ScoreDto(score, icon, scoreDto.getNickname());
+    Quiz quiz = new Quiz();
+    quiz.setNickname(scoreDto.getNickname());
+    quiz.setScore(score);
+    quiz.setCheck(false);
+
+    quizRepository.save(quiz);
+
+    return new ScoreDto(score, scoreDto.getNickname());
   }
 
   public SubmitDto updateSubmitByNickname(SubmitDto submitDto) {
