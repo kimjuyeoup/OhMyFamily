@@ -37,7 +37,7 @@ public class QuestionController {
   }
 
   @PostMapping("/submit")
-  public ResponseEntity<SubmitDto> submitQuestion(@RequestBody SubmitDto request) {
+  public ResponseEntity<SubmitDto> submitQuestion(@ModelAttribute SubmitDto request) {
     SubmitDto submit = questionService.updateSubmitByNickname(request);
     return ResponseEntity.ok(submit);
   }
