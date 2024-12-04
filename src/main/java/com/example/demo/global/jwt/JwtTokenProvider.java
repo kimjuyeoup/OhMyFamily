@@ -73,6 +73,10 @@ public class JwtTokenProvider {
     return claims.getSubject();
   }
 
+  public Long getMemberIdFromToken(String accessToken) {
+    return Long.valueOf(getClaims(accessToken).getBody().getSubject());
+  }
+
   public Claims parseClaims(String accessToken) {
     try {
       return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
