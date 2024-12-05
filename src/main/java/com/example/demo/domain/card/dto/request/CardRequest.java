@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class CardRequest {
 
-  Integer score;
+  Long score;
   String imageUrl;
   String title;
   String subtitle;

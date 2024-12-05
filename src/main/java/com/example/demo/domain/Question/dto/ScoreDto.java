@@ -1,10 +1,9 @@
 package com.example.demo.domain.Question.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreDto {
-  private List<ResultDto> result = new ArrayList<>();
+  private List<ResultDto> result;
   private String nickname;
   private Long score;
 
