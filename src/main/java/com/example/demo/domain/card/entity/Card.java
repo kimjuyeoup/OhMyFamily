@@ -20,7 +20,7 @@ public class Card {
   private Long id;
 
   @Column(name = "score")
-  private Integer score;
+  private Long score;
 
   @Column(name = "image_url")
   private String imageUrl;
@@ -46,11 +46,11 @@ public class Card {
     this.id = id;
   }
 
-  public Integer getScore() {
+  public Long getScore() {
     return score;
   }
 
-  public void setScore(Integer score) {
+  public void setScore(Long score) {
     this.score = score;
   }
 
