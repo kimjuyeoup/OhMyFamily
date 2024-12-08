@@ -7,9 +7,10 @@ public class ScoreDto {
   private String nickname;
   private Long score;
 
-  public ScoreDto(Long score, String nickname) {
+  public ScoreDto(Long score, String nickname, List<ResultDto> result) {
     this.score = score;
     this.nickname = nickname;
+    this.result = result;
   }
 
   public List<ResultDto> getResult() {

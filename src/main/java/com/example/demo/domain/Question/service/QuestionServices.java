@@ -1,7 +1,6 @@
 package com.example.demo.domain.Question.service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +10,8 @@ import com.example.demo.domain.Question.dto.ScoreDto;
 import com.example.demo.domain.Question.dto.SubmitDto;
 import com.example.demo.domain.Question.entity.QuestionEntity;
 import com.example.demo.domain.Question.repository.QuestionRepository;
+import com.example.demo.domain.SetQuestion.entity.SetQuestion;
+import com.example.demo.domain.SetQuestion.repository.SetQuestionRepository;
 import com.example.demo.domain.quiz.entity.Quiz;
 import com.example.demo.domain.quiz.repository.QuizRepository;
 import com.example.demo.domain.s3.S3UploadService;
@@ -25,6 +26,7 @@ public class QuestionServices {
   private final QuestionRepository questionRepository;
   private final QuizRepository quizRepository;
   private final S3UploadService s3UploadService;
+  private final SetQuestionRepository setQuestionRepository;
 
   public ScoreDto updateScoreByNickname(ScoreDto scoreDto) {
 
@@ -43,31 +45,42 @@ public class QuestionServices {
         questionRepository.save(question);
       }
     }
-    Long score = questionRepository.findAllScore();
+    Set<Long> setIds = new HashSet<>();
+    for (QuestionEntity question : questions) {
+      if (Boolean.TRUE.equals(question.getIsAnswer())) {
+        setIds.add(question.getSetId());
+      }
+    }
+
+    List<SetQuestion> setQuestions = setQuestionRepository.findAllById(setIds);
+    Long totalScore = setQuestions.stream().mapToLong(SetQuestion::getScore).sum();
 
     Quiz quiz = new Quiz();
     quiz.setNickname(scoreDto.getNickname());
-    quiz.setScore(score);
+    quiz.setScore(totalScore);
     quiz.setCheck(false);
 
     quizRepository.save(quiz);
-
-    return new ScoreDto(score, scoreDto.getNickname());
+    return new ScoreDto(10L, scoreDto.getNickname(), scoreDto.getResult());
   }
 
   public SubmitDto updateSubmitByNickname(SubmitDto submitDto) {
-    if (submitDto.getImage() != null && !submitDto.getImage().isEmpty()) {
-      s3UploadService.uploadFile(submitDto.getImage());
-    }
-    List<QuestionEntity> questions = questionRepository.findByName(submitDto.getName());
+
     List<String> answers = submitDto.getAnswer();
-    for (int i = 0; i < questions.size(); i++) {
-      QuestionEntity question = questions.get(i);
-      if (i < answers.size()) {
-        question.setAnswer(answers.get(i));
+    List<SetQuestion> setQuestions = setQuestionRepository.findAll();
+    List<QuestionEntity> questions = new ArrayList<>();
+    for (int i = 0; i < answers.size(); i++) {
+      QuestionEntity question = new QuestionEntity();
+      question.setName(submitDto.getName());
+      question.setAnswer(answers.get(i));
+      if (i < setQuestions.size()) {
+        SetQuestion setQuestion = setQuestions.get(i);
+        question.setSetId(setQuestion.getId());
       }
+      questions.add(question);
     }
     questionRepository.saveAll(questions);
+
     return submitDto;
   }
 }
