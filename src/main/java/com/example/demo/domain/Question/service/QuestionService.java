@@ -36,7 +36,8 @@ public class QuestionService {
                     question.getId(),
                     question.getTitle(name),
                     question.getContentsFormatted(name),
-                    question.getIcon()))
+                    question.getIcon(),
+                    question.getType()))
         .collect(Collectors.toList());
   }
 

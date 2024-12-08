@@ -6,12 +6,14 @@ public class SetQuestionDto {
   private String title;
   private Object content;
   private String icon;
+  private String type;
 
-  public SetQuestionDto(Long id, String title, Object content, String icon) {
+  public SetQuestionDto(Long id, String title, Object content, String icon, String type) {
     this.id = id;
     this.title = title;
     this.content = content;
     this.icon = icon;
+    this.type = type;
   }
 
   public Long getId() {
@@ -44,5 +46,13 @@ public class SetQuestionDto {
 
   public void setIcon(String icon) {
     this.icon = icon;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 }
