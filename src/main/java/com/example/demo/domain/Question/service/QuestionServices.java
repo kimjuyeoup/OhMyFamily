@@ -35,7 +35,17 @@ public class QuestionServices {
       throw new IllegalArgumentException("Questions not found for user: " + scoreDto.getNickname());
     }
 
-    for (ResultDto updatedResult : scoreDto.getResult()) {
+    for (int i = 0; i < scoreDto.getResult().size(); i++) {
+      ResultDto resultDto = scoreDto.getResult().get(i);
+
+      if (i < questions.size()) {
+        QuestionEntity question = questions.get(i);
+        question.setIsAnswer(resultDto.getIsCorrect());
+        questionRepository.save(question);
+      }
+    }
+
+    /*for (ResultDto updatedResult : scoreDto.getResult()) {
       Optional<QuestionEntity> optionalQuestion =
           questionRepository.findById(updatedResult.getId());
 
@@ -44,7 +54,7 @@ public class QuestionServices {
         question.setIsAnswer(updatedResult.getIsCorrect());
         questionRepository.save(question);
       }
-    }
+    }*/
     Set<Long> setIds = new HashSet<>();
     for (QuestionEntity question : questions) {
       if (Boolean.TRUE.equals(question.getIsAnswer())) {
