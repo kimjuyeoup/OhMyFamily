@@ -24,6 +24,7 @@ public class SetQuestionService {
       setQuestion.setTitle(setQuestions.getTitle());
       setQuestion.setIcon(setQuestions.getIcon());
       setQuestion.setScore(setQuestions.getScore());
+      setQuestion.setType(setQuestions.getType());
 
       setQuestionRepository.save(setQuestion);
     }
