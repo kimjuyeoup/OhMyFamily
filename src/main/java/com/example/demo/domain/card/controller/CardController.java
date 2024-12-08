@@ -26,8 +26,6 @@ public class CardController {
   public List<CardDto> searchDetail(@RequestParam String name, @RequestParam Long score) {
     List<Card> cards = cardService.findCardsByScore(score);
 
-    return cards.stream()
-        .map(card -> new CardDto(card, name)) // name 값 추가
-        .collect(Collectors.toList());
+    return cards.stream().map(card -> new CardDto(card, name)).collect(Collectors.toList());
   }
 }

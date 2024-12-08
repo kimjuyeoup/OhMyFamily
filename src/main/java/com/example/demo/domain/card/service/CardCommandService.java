@@ -77,7 +77,21 @@ public class CardCommandService {
   }
 
   public List<Card> findCardsByScore(Long score) {
-    return cardRepository.findByScore(score);
+    Long scorenum = 0L;
+    if (score >= 0 && score <= 20) {
+      scorenum = 20L;
+    } else if (score > 20 && score <= 40) {
+      scorenum = 40L;
+    } else if (score > 40 && score <= 60) {
+      scorenum = 60L;
+    } else if (score > 60 && score <= 80) {
+      scorenum = 80L;
+    } else if (score > 80 && score <= 90) {
+      scorenum = 90L;
+    } else if (score > 90 && score <= 100) {
+      scorenum = 100L;
+    }
+    return cardRepository.findByScore(scorenum);
   }
 
   /*public void createCard(CardRequest request) {
