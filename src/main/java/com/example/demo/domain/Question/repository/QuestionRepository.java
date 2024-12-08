@@ -12,6 +12,7 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> 
 
   List<QuestionEntity> findAnswerByName(String name);
 
+  List<QuestionEntity> findBySetQuestionId(Long setId);
   /*@Query("SELECT SUM(q.score) FROM QuestionEntity q WHERE q.isAnswer = TRUE")
   Long findAllScore();*/
 }
