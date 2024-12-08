@@ -53,7 +53,7 @@ public class QuestionService {
                   String icon = setQuestion != null ? setQuestion.getIcon() : null;
 
                   return AnswerResponse.builder()
-                      .id(question.getId())
+                      .id(question.getSetId())
                       .answer(question.getAnswer())
                       .title(title)
                       .icon(icon)
