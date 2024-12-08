@@ -4,7 +4,6 @@ public class ResultDto {
   private Long id;
   private Boolean isCorrect;
 
-  // id 필드에 대한 getter와 setter
   public Long getId() {
     return id;
   }
@@ -13,7 +12,6 @@ public class ResultDto {
     this.id = id;
   }
 
-  // isCorrect 필드에 대한 getter와 setter
   public Boolean getIsCorrect() {
     return isCorrect;
   }
