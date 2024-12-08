@@ -32,7 +32,6 @@ public class S3UploadService {
     } catch (IOException e) {
       log.error("error at AmazonS3Manager uploadFile : {}", (Object) e.getStackTrace());
     }
-
     return amazonS3.getUrl(amazonConfig.getBucket(), generateQuizKeyName()).toString();
   }
 

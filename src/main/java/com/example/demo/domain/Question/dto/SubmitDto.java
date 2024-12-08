@@ -2,18 +2,14 @@ package com.example.demo.domain.Question.dto;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class SubmitDto {
   private Long id;
   private String name;
   private List<String> answer;
-  private MultipartFile image;
 
-  public SubmitDto(String name, List<String> answer, MultipartFile image) {
+  public SubmitDto(String name, List<String> answer) {
     this.name = name;
     this.answer = answer;
-    this.image = image;
   }
 
   public Long getId() {
@@ -38,13 +34,5 @@ public class SubmitDto {
 
   public void setAnswer(List<String> answer) {
     this.answer = answer;
-  }
-
-  public MultipartFile getImage() {
-    return image;
-  }
-
-  public void setImage(MultipartFile image) {
-    this.image = image;
   }
 }

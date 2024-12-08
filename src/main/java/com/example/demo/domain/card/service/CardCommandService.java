@@ -13,16 +13,14 @@ import com.example.demo.domain.card.dto.request.CardRequest;
 import com.example.demo.domain.card.entity.Card;
 import com.example.demo.domain.card.repository.CardRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
-// @RequiredArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class CardCommandService {
 
   private final CardRepository cardRepository;
-
-  public CardCommandService(CardRepository cardRepository) {
-    this.cardRepository = cardRepository;
-  }
 
   @PostConstruct
   public void init() {

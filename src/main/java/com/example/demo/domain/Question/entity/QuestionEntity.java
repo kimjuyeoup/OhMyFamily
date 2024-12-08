@@ -2,6 +2,7 @@ package com.example.demo.domain.Question.entity;
 
 import jakarta.persistence.*;
 
+import com.example.demo.domain.SetQuestion.entity.SetQuestion;
 import com.example.demo.domain.member.entity.Member;
 
 import lombok.AllArgsConstructor;
@@ -22,56 +23,49 @@ public class QuestionEntity {
   @Column(name = "question_id")
   private Long id;
 
-  @Column(name = "question_number")
-  private Long number;
-
-  @Column(name = "content")
-  private String content;
-
   @Column(name = "answer")
   private String answer;
 
   @Column(name = "is_answer")
   private Boolean isAnswer;
 
-  @Column(name = "title")
-  private String title;
-
-  @Column(name = "type")
-  private String type;
-
-  @Column(name = "score")
-  private Long score;
-
   @Column(name = "name")
   private String name;
 
-  @Column(name = "icon")
-  private String icon;
+  @ManyToOne
+  @JoinColumn(name = "set_id")
+  private SetQuestion setQuestion;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member")
   private Member member;
 
-  public QuestionEntity(
-      String type,
-      String title,
-      Boolean isAnswer,
-      String answer,
-      String content,
-      String icon,
-      Long score,
-      String name,
-      Long number) {
-    this.type = type;
-    this.title = title;
-    this.content = content;
-    this.icon = icon;
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setAnswer(Boolean answer) {
+    isAnswer = answer;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
     this.name = name;
-    this.isAnswer = isAnswer;
-    this.score = score;
-    this.answer = answer;
-    this.number = number;
+  }
+
+  public Member getMember() {
+    return member;
+  }
+
+  public void setMember(Member member) {
+    this.member = member;
   }
 
   public String getAnswer() {
@@ -88,5 +82,24 @@ public class QuestionEntity {
 
   public void setIsAnswer(Boolean answer) {
     isAnswer = answer;
+  }
+
+  public SetQuestion getSetQuestion() {
+    return setQuestion;
+  }
+
+  public void setSetQuestion(SetQuestion setQuestion) {
+    this.setQuestion = setQuestion;
+  }
+
+  public void setSetId(Long setId) {
+
+    SetQuestion setQuestion = new SetQuestion();
+    setQuestion.setId(setId);
+    this.setSetQuestion(setQuestion);
+  }
+
+  public Long getSetId() {
+    return setQuestion.getId();
   }
 }

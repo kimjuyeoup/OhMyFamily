@@ -5,11 +5,11 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.domain.Question.dto.QuestionDto;
 import com.example.demo.domain.Question.dto.ScoreDto;
 import com.example.demo.domain.Question.dto.SubmitDto;
 import com.example.demo.domain.Question.service.QuestionService;
 import com.example.demo.domain.Question.service.QuestionServices;
+import com.example.demo.domain.SetQuestion.dto.SetQuestionDto;
 import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.global.exception.BaseResponse;
 
@@ -24,8 +24,8 @@ public class QuestionController {
   private final MemberRepository memberRepository;
 
   @GetMapping("/question")
-  public BaseResponse<List<QuestionDto>> getAllQuestions(@RequestParam String name) {
-    return BaseResponse.onSuccess(questionService.getQuestionsByName(name));
+  public BaseResponse<List<SetQuestionDto>> getAllQuestions(@RequestParam String name) {
+    return BaseResponse.onSuccess(questionService.getQuestionByName(name));
   }
 
   @GetMapping("/answer")
