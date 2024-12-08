@@ -35,7 +35,7 @@ public class QuestionService {
                 new SetQuestionDto(
                     question.getId(),
                     question.getTitle(name),
-                    question.getContent(name),
+                    question.getContentsFormatted(name),
                     question.getIcon()))
         .collect(Collectors.toList());
   }

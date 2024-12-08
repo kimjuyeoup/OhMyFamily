@@ -22,6 +22,9 @@ public class SetQuestion {
   @Column(name = "Score")
   private Long score;
 
+  @Column(name = "Type")
+  private String type;
+
   public Long getId() {
     return id;
   }
@@ -60,5 +63,25 @@ public class SetQuestion {
 
   public void setScore(Long score) {
     this.score = score;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public Object getContentsFormatted(String name) {
+    if ("select".equalsIgnoreCase(this.type)) {
+      String formattedContent = content != null ? content.replace("{name}", name) : null;
+      String[] contentsArray =
+          formattedContent != null ? formattedContent.split(",") : new String[] {};
+
+      return contentsArray;
+    } else {
+      return content != null ? content.replace("{name}", name) : name;
+    }
   }
 }
