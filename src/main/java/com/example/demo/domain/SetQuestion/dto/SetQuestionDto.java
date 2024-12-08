@@ -1,17 +1,16 @@
-package com.example.demo.domain.Question.dto;
+package com.example.demo.domain.SetQuestion.dto;
 
-public class QuestionDto {
+public class SetQuestionDto {
+
   private Long id;
   private String title;
-  private Object content;
-  private String type;
+  private String content;
   private String icon;
 
-  public QuestionDto(Long id, String type, String title, Object content, String icon) {
+  public SetQuestionDto(Long id, String title, String content, String icon) {
     this.id = id;
     this.title = title;
     this.content = content;
-    this.type = type;
     this.icon = icon;
   }
 
@@ -31,12 +30,12 @@ public class QuestionDto {
     this.title = title;
   }
 
-  public String getType() {
-    return type;
+  public String getContent() {
+    return content;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setContent(String content) {
+    this.content = content;
   }
 
   public String getIcon() {
@@ -45,13 +44,5 @@ public class QuestionDto {
 
   public void setIcon(String icon) {
     this.icon = icon;
-  }
-
-  public Object getContent() {
-    return content;
-  }
-
-  public void setContent(Object content) {
-    this.content = content;
   }
 }
