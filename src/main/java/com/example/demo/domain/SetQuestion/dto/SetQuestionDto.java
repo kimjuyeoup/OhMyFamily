@@ -4,10 +4,10 @@ public class SetQuestionDto {
 
   private Long id;
   private String title;
-  private String content;
+  private Object content;
   private String icon;
 
-  public SetQuestionDto(Long id, String title, String content, String icon) {
+  public SetQuestionDto(Long id, String title, Object content, String icon) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -30,11 +30,11 @@ public class SetQuestionDto {
     this.title = title;
   }
 
-  public String getContent() {
+  public Object getContent() {
     return content;
   }
 
-  public void setContent(String content) {
+  public void setContent(Object content) {
     this.content = content;
   }
 
