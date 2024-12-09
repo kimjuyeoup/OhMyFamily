@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.example.demo.global.exception.GlobalErrorCode;
-import com.example.demo.global.exception.GlobalException;
+import com.example.demo.global.exception.TokenException;
 import com.example.demo.global.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
@@ -46,10 +46,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                   userDetails, "", userDetails.getAuthorities());
           SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         } else {
-          throw new GlobalException(GlobalErrorCode.NOT_FOUND_MEMBER);
+          throw new TokenException(GlobalErrorCode.NOT_FOUND_MEMBER);
         }
       } else {
-        throw new GlobalException(GlobalErrorCode.INVALID_TOKEN);
+        throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
       }
     }
     filterChain.doFilter(request, response);

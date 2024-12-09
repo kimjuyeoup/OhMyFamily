@@ -27,7 +27,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
     BaseResponse<Object> errorResponse =
-        BaseResponse.onFailure(GlobalErrorCode.NOT_FOUND_MEMBER, null);
+        BaseResponse.onFailure(GlobalErrorCode.INVALID_TOKEN, null);
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.writeValue(response.getOutputStream(), errorResponse);

@@ -30,7 +30,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     accessDeniedException.printStackTrace();
 
     BaseResponse<Object> errorResponse =
-        BaseResponse.onFailure(GlobalErrorCode.NOT_FOUND_MEMBER, null);
+        BaseResponse.onFailure(GlobalErrorCode.INVALID_TOKEN, null);
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.writeValue(response.getOutputStream(), errorResponse);
