@@ -11,20 +11,24 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.demo.global.config.AmazonConfig;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class S3UploadService {
 
   private final AmazonS3 amazonS3;
   private final AmazonConfig amazonConfig;
 
+  public S3UploadService(AmazonS3 amazonS3, AmazonConfig amazonConfig) {
+    this.amazonS3 = amazonS3;
+    this.amazonConfig = amazonConfig;
+  }
+
   public String uploadFile(MultipartFile file) {
     ObjectMetadata metadata = new ObjectMetadata();
     metadata.setContentLength(file.getSize());
+    System.out.println("파일 이름" + file.getOriginalFilename());
     try {
       amazonS3.putObject(
           new PutObjectRequest(
