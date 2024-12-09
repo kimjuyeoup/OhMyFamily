@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.global.exception.GlobalErrorCode;
-import com.example.demo.global.exception.GlobalException;
+import com.example.demo.global.exception.TokenException;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -95,12 +95,12 @@ public class JwtTokenProvider {
       Date expiredDate = claims.getBody().getExpiration();
       return expiredDate.after(new Date());
     } catch (ExpiredJwtException e) {
-      throw new RuntimeException();
+      throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
     } catch (SecurityException
         | MalformedJwtException
         | UnsupportedJwtException
         | IllegalArgumentException e) {
-      throw new RuntimeException();
+      throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
     }
   }
 
@@ -109,6 +109,6 @@ public class JwtTokenProvider {
       Claims claims = getClaims(token).getBody();
       return Long.parseLong(claims.getSubject());
     }
-    throw new GlobalException(GlobalErrorCode.NOT_FOUND_MEMBER);
+    throw new TokenException(GlobalErrorCode.NOT_FOUND_MEMBER);
   }
 }

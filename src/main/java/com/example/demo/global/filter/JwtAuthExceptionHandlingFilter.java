@@ -13,7 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.example.demo.global.exception.BaseResponse;
 import com.example.demo.global.exception.GlobalErrorCode;
-import com.example.demo.global.exception.GlobalException;
+import com.example.demo.global.exception.TokenException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
@@ -25,14 +25,14 @@ public class JwtAuthExceptionHandlingFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
     try {
       filterChain.doFilter(request, response);
-    } catch (GlobalException e) {
+    } catch (TokenException e) {
       response.setContentType("application/json; charset=UTF-8");
       response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
       GlobalErrorCode code = e.getErrorCode();
 
       BaseResponse<Object> errorResponse =
-          BaseResponse.onFailure(GlobalErrorCode.NOT_FOUND_MEMBER, null);
+          BaseResponse.onFailure(GlobalErrorCode.INVALID_TOKEN, null);
 
       ObjectMapper mapper = new ObjectMapper();
       mapper.writeValue(response.getOutputStream(), errorResponse);
