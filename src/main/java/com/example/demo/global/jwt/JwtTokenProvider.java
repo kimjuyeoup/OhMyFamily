@@ -90,17 +90,23 @@ public class JwtTokenProvider {
   }
 
   public boolean isTokenValid(String token) {
+    System.out.println("12");
     try {
+      System.out.println("13");
       Jws<Claims> claims = getClaims(token);
+      System.out.println("14");
       Date expiredDate = claims.getBody().getExpiration();
+      System.out.println("15 " + expiredDate.toString());
       return expiredDate.after(new Date());
     } catch (ExpiredJwtException e) {
-      throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
+      System.out.println("16");
+      throw new RuntimeException(e.getMessage());
     } catch (SecurityException
         | MalformedJwtException
         | UnsupportedJwtException
         | IllegalArgumentException e) {
-      throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
+      System.out.println("17");
+      throw new RuntimeException(e.getMessage());
     }
   }
 
