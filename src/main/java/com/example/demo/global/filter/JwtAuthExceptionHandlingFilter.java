@@ -38,6 +38,9 @@ public class JwtAuthExceptionHandlingFilter extends OncePerRequestFilter {
 
       ObjectMapper mapper = new ObjectMapper();
       mapper.writeValue(response.getOutputStream(), errorResponse);
+
+      response.getOutputStream().flush();
+      response.getOutputStream().close();
     }
   }
 }
