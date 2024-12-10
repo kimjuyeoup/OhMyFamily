@@ -100,13 +100,13 @@ public class JwtTokenProvider {
       return expiredDate.after(new Date());
     } catch (ExpiredJwtException e) {
       System.out.println("16");
-      throw new RuntimeException(e.getMessage());
+      throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
     } catch (SecurityException
         | MalformedJwtException
         | UnsupportedJwtException
         | IllegalArgumentException e) {
       System.out.println("17");
-      throw new RuntimeException(e.getMessage());
+      throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
     }
   }
 

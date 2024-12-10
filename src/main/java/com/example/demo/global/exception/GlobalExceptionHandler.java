@@ -20,9 +20,10 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(value = {TokenException.class})
-  protected BaseResponse handleTokenException(TokenException e) {
+  protected ResponseEntity<BaseResponse<Object>> handleTokenException(TokenException e) {
     log.error("handleTokenException throw TokenException : {}", e.getErrorCode());
-    return BaseResponse.onFailure(e.getErrorCode(), null);
+    BaseResponse<Object> errorResponse = BaseResponse.onFailure(e.getErrorCode(), null);
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
   }
 
   @ExceptionHandler(value = {SignatureException.class})
