@@ -27,7 +27,7 @@ public class SecurityConfig {
   private final JwtRequestFilter jwtRequestFilter;
   private final JwtAuthExceptionHandlingFilter jwtAuthExceptionHandlingFilter;
 
-  private final String[] allowedUrls = {"/h2-console/**", "/**", "/api/v1/**"};
+  private final String[] allowedUrls = {"/h2-console/**", "/**", "/api/v1/**", "/api/**"};
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

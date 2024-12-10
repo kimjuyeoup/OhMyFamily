@@ -23,6 +23,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
       HttpServletResponse response,
       AccessDeniedException accessDeniedException)
       throws IOException {
+    System.out.println("10");
     response.setContentType("application/json; charset=UTF-8");
     response.setStatus(HttpStatus.FORBIDDEN.value());
 
@@ -30,7 +31,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     accessDeniedException.printStackTrace();
 
     BaseResponse<Object> errorResponse =
-        BaseResponse.onFailure(GlobalErrorCode.INVALID_TOKEN, null);
+        BaseResponse.onFailure(GlobalErrorCode.NOT_FOUND_MEMBER, null);
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.writeValue(response.getOutputStream(), errorResponse);
