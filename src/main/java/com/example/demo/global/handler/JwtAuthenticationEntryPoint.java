@@ -23,11 +23,12 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
       HttpServletResponse response,
       AuthenticationException authException)
       throws IOException {
+    System.out.println("11");
     response.setContentType("application/json; charset=UTF-8");
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
     BaseResponse<Object> errorResponse =
-        BaseResponse.onFailure(GlobalErrorCode.INVALID_TOKEN, null);
+        BaseResponse.onFailure(GlobalErrorCode.NOT_FOUND_MEMBER, null);
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.writeValue(response.getOutputStream(), errorResponse);

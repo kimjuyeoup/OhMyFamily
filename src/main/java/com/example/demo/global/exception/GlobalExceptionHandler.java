@@ -2,6 +2,8 @@ package com.example.demo.global.exception;
 
 import java.security.SignatureException;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -24,8 +26,9 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(value = {SignatureException.class})
-  protected BaseResponse handleSignatureException(SignatureException e) {
-    log.error("handleSignatureException: JWT signature validation failed - {}", e.getMessage());
-    return BaseResponse.onFailure(GlobalErrorCode.INVALID_TOKEN, null);
+  protected ResponseEntity<BaseResponse> handleSignatureException(SignatureException e) {
+    log.error("JWT SignatureException: {}", e.getMessage());
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        .body(BaseResponse.onFailure(GlobalErrorCode.INVALID_TOKEN, null));
   }
 }
