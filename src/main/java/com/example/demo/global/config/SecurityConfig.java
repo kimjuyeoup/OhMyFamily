@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.example.demo.global.filter.JwtAuthExceptionHandlingFilter;
 import com.example.demo.global.filter.JwtRequestFilter;
@@ -27,7 +26,7 @@ public class SecurityConfig {
   private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
   private final JwtRequestFilter jwtRequestFilter;
   private final JwtAuthExceptionHandlingFilter jwtAuthExceptionHandlingFilter;
-  private final CorsConfigurationSource corsConfigurationSource;
+  private final WebConfig webConfig;
 
   private final String[] allowedUrls = {"/h2-console/**", "/**", "/api/v1/**", "/api/**"};
 
@@ -38,8 +37,9 @@ public class SecurityConfig {
 
     http.httpBasic(AbstractHttpConfigurer::disable);
 
-    http.cors(cors -> cors.configurationSource(corsConfigurationSource))
-        .csrf(AbstractHttpConfigurer::disable);
+    http.cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()));
+
+    http.csrf(AbstractHttpConfigurer::disable);
 
     http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
