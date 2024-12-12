@@ -12,9 +12,13 @@ import com.example.demo.domain.Question.entity.QuestionEntity;
 import com.example.demo.domain.Question.repository.QuestionRepository;
 import com.example.demo.domain.SetQuestion.entity.SetQuestion;
 import com.example.demo.domain.SetQuestion.repository.SetQuestionRepository;
+import com.example.demo.domain.member.entity.Member;
+import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.domain.quiz.entity.Quiz;
 import com.example.demo.domain.quiz.repository.QuizRepository;
 import com.example.demo.domain.s3.S3UploadService;
+import com.example.demo.global.jwt.CurrentToken;
+import com.example.demo.global.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +31,8 @@ public class QuestionServices {
   private final QuizRepository quizRepository;
   private final S3UploadService s3UploadService;
   private final SetQuestionRepository setQuestionRepository;
+  private final JwtTokenProvider jwtTokenProvider;
+  private final MemberRepository memberRepository;
 
   public ScoreDto updateScoreByNickname(ScoreDto scoreDto) {
 
@@ -44,17 +50,6 @@ public class QuestionServices {
         questionRepository.save(question);
       }
     }
-
-    /*for (ResultDto updatedResult : scoreDto.getResult()) {
-      Optional<QuestionEntity> optionalQuestion =
-          questionRepository.findById(updatedResult.getId());
-
-      if (optionalQuestion.isPresent()) {
-        QuestionEntity question = optionalQuestion.get();
-        question.setIsAnswer(updatedResult.getIsCorrect());
-        questionRepository.save(question);
-      }
-    }*/
     Set<Long> setIds = new HashSet<>();
     for (QuestionEntity question : questions) {
       if (Boolean.TRUE.equals(question.getIsAnswer())) {
@@ -76,6 +71,11 @@ public class QuestionServices {
 
   public SubmitDto updateSubmitByNickname(SubmitDto submitDto) {
 
+    Long memberId = CurrentToken.getCurrentMemberId();
+    Member member =
+        memberRepository
+            .findById(memberId)
+            .orElseThrow(() -> new IllegalArgumentException("Member not found"));
     List<String> answers = submitDto.getAnswer();
     List<SetQuestion> setQuestions = setQuestionRepository.findAll();
     List<QuestionEntity> questions = new ArrayList<>();
@@ -83,6 +83,7 @@ public class QuestionServices {
       QuestionEntity question = new QuestionEntity();
       question.setName(submitDto.getName());
       question.setAnswer(answers.get(i));
+      question.setMember(member);
       if (i < setQuestions.size()) {
         SetQuestion setQuestion = setQuestions.get(i);
         question.setSetId(setQuestion.getId());
