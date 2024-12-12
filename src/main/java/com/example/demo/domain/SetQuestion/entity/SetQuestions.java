@@ -3,7 +3,7 @@ package com.example.demo.domain.SetQuestion.entity;
 public enum SetQuestions {
   CONTENT1(
       "{name}와\n 언제 마지막으로 통화했나요?", "오늘, 지난 주, 지난 달, 전화 자주 할게요 죄송해요 사랑해요♥", "call", "select", 10L),
-  CONTENT2("{name}는\n 언제 태어나셨나요?", "작성 예시) 1998/12/22 (숫자 8자리)", "angel", "number", 20L),
+  CONTENT2("{name}는\n 언제 태어나셨나요?", "작성 예시) 1998/12/22 (숫자 8자리)", "angel", "date", 20L),
   CONTENT3("{name}는\n 올해 몇 번째 생일을 맞이하셨나요?", "이거 모르면 진짜 반성해야 댑니다.", "birth", "number", 30L),
   CONTENT4("{name}가\n 가장 좋아하는 음식은 무엇인가요?", "참고로 저는 소고기 좋아합니다.", "food", "input", 40L),
   CONTENT5("{name}가\n 최근에 빠진 음악은 무엇인가요?", "어머니의 급상승차트♬", "music", "input", 50L),
