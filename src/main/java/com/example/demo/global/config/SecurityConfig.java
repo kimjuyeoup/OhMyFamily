@@ -26,7 +26,6 @@ public class SecurityConfig {
   private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
   private final JwtRequestFilter jwtRequestFilter;
   private final JwtAuthExceptionHandlingFilter jwtAuthExceptionHandlingFilter;
-  private final WebConfig webConfig;
 
   private final String[] allowedUrls = {"/h2-console/**", "/**", "/api/v1/**", "/api/**"};
 
@@ -36,8 +35,6 @@ public class SecurityConfig {
     http.formLogin(AbstractHttpConfigurer::disable);
 
     http.httpBasic(AbstractHttpConfigurer::disable);
-
-    http.cors(cors -> cors.configurationSource(webConfig.corsConfigurationSource()));
 
     http.csrf(AbstractHttpConfigurer::disable);
 
