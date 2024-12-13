@@ -10,7 +10,6 @@ import com.example.demo.domain.Question.dto.SubmitDto;
 import com.example.demo.domain.Question.service.QuestionService;
 import com.example.demo.domain.Question.service.QuestionServices;
 import com.example.demo.domain.SetQuestion.dto.SetQuestionDto;
-import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.global.exception.BaseResponse;
 import com.example.demo.global.jwt.JwtTokenProvider;
 
@@ -22,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class QuestionController {
   private final QuestionService questionService;
   private final QuestionServices questionServices;
-  private final MemberRepository memberRepository;
   private final JwtTokenProvider jwtTokenProvider;
 
   @GetMapping("/question")

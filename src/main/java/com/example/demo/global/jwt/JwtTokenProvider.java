@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.global.exception.GlobalErrorCode;
@@ -53,7 +55,17 @@ public class JwtTokenProvider {
   }
 
   public String generateAccessToken(Long userId) {
-    return generateToken(userId, accessTokenValidityMilliseconds);
+    String accessToken = generateToken(userId, accessTokenValidityMilliseconds);
+    if (isTokenValid(accessToken)) {
+      setAuthentication(userId);
+    }
+    return accessToken;
+  }
+
+  private void setAuthentication(Long userId) {
+    UsernamePasswordAuthenticationToken authenticationToken =
+        new UsernamePasswordAuthenticationToken(userId, null, null);
+    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
   }
 
   public String generateRefreshToken(Long userId) {
@@ -74,7 +86,8 @@ public class JwtTokenProvider {
   }
 
   public Long getMemberIdFromToken(String accessToken) {
-    return Long.valueOf(getClaims(accessToken).getBody().getSubject());
+    Claims claims = parseClaims(accessToken);
+    return Long.valueOf(claims.getSubject());
   }
 
   public Claims parseClaims(String accessToken) {
