@@ -8,8 +8,11 @@ import org.springframework.stereotype.Component;
 public class CurrentToken {
 
   public static Long getCurrentMemberId() {
+
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication != null || !authentication.isAuthenticated()) {
+
+    System.out.println("토큰 : " + authentication);
+    if (authentication == null || !authentication.isAuthenticated()) {
       throw new IllegalStateException("인증되지 않은 사용자" + authentication);
     }
     String userId = authentication.getPrincipal().toString();
