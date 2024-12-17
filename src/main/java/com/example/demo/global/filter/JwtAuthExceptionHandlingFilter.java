@@ -23,12 +23,9 @@ public class JwtAuthExceptionHandlingFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
-    System.out.println("7");
     try {
-      System.out.println("8");
       filterChain.doFilter(request, response);
     } catch (TokenException e) {
-      System.out.println("9");
       response.setContentType("application/json; charset=UTF-8");
       response.setStatus(HttpStatus.UNAUTHORIZED.value());
 

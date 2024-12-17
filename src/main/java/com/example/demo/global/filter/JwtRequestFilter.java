@@ -26,34 +26,39 @@ public class JwtRequestFilter extends OncePerRequestFilter {
   private final JwtTokenProvider jwtAuthProvider;
   private final UserDetailsService userDetailsService;
 
+  private final String[] excludedUrls = {"/api/v1/member/kakao"};
+
   @Override
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
 
-    String authorizationHeader = request.getHeader("Authorization");
+    String requestUri = request.getRequestURI();
 
-    System.out.println("1");
+    // 검사 제외 URL인지 확인
+    for (String excludedUrl : excludedUrls) {
+      if (requestUri.startsWith(excludedUrl)) {
+        filterChain.doFilter(request, response);
+        return; // 검사 제외
+      }
+    }
+
+    String authorizationHeader = request.getHeader("Authorization");
 
     if (authorizationHeader != null) {
       String token = authorizationHeader;
-      System.out.println("2");
       if (jwtAuthProvider.isTokenValid(token)) {
         Long userId = jwtAuthProvider.getMemberIdFromToken(token);
         UserDetails userDetails = userDetailsService.loadUserByUsername(userId.toString());
-        System.out.println("3");
         if (userDetails != null) {
           UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
               new UsernamePasswordAuthenticationToken(
                   userDetails, "", userDetails.getAuthorities());
           SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-          System.out.println("4");
         } else {
-          System.out.println("5");
           throw new RuntimeException(GlobalErrorCode.NOT_FOUND_MEMBER.getMessage());
         }
       } else {
-        System.out.println("6");
         throw new RemoteException(GlobalErrorCode.INVALID_TOKEN.getMessage());
       }
     }

@@ -23,7 +23,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
       HttpServletResponse response,
       AuthenticationException authException)
       throws IOException {
-    System.out.println("11");
     response.setContentType("application/json; charset=UTF-8");
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
