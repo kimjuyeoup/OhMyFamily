@@ -24,13 +24,13 @@ public class QuestionController {
   private final JwtTokenProvider jwtTokenProvider;
 
   @GetMapping("/question")
-  public BaseResponse<List<SetQuestionDto>> getAllQuestions(@RequestParam String name) {
-    return BaseResponse.onSuccess(questionService.getQuestionByName(name));
+  public BaseResponse<List<SetQuestionDto>> getAllQuestions(@RequestParam String name, String id) {
+    return BaseResponse.onSuccess(questionService.getQuestionByName(name, id));
   }
 
   @GetMapping("/answer")
-  public BaseResponse<Map<String, Object>> getAnswerByName(@RequestParam String name) {
-    Map<String, Object> response = questionService.getAnswerByName(name);
+  public BaseResponse<Map<String, Object>> getAnswerByName(@RequestParam String name, String id) {
+    Map<String, Object> response = questionService.getAnswerByName(name, id);
     return BaseResponse.onSuccess(response);
   }
 

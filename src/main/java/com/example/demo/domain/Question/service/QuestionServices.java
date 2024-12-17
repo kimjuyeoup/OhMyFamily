@@ -73,6 +73,8 @@ public class QuestionServices {
     List<String> answers = submitDto.getAnswer();
     List<SetQuestion> setQuestions = setQuestionRepository.findAll();
     List<QuestionEntity> questions = new ArrayList<>();
+    int maxnumber = questionRepository.findMaxNumber(submitDto.getName());
+    int number = maxnumber + 1;
     for (int i = 0; i < answers.size(); i++) {
       QuestionEntity question = new QuestionEntity();
       question.setName(submitDto.getName());
@@ -82,6 +84,7 @@ public class QuestionServices {
         SetQuestion setQuestion = setQuestions.get(i);
         question.setSetId(setQuestion.getId());
       }
+      question.setNumber(number);
       questions.add(question);
     }
     questionRepository.saveAll(questions);
