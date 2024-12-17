@@ -25,7 +25,7 @@ public class QuestionService {
   private final SetQuestionRepository setQuestionRepository;
   private final QuestionRepository questionRepository;
 
-  public List<SetQuestionDto> getQuestionByName(String name) {
+  public List<SetQuestionDto> getQuestionByName(String name, String id) {
 
     List<SetQuestion> questions = setQuestionRepository.findAll();
 
@@ -35,13 +35,13 @@ public class QuestionService {
                 new SetQuestionDto(
                     question.getId(),
                     question.getTitle(name),
-                    question.getContentsFormatted(name),
+                    question.getContentsFormatted(name, id),
                     question.getIcon(),
                     question.getType()))
         .collect(Collectors.toList());
   }
 
-  public Map<String, Object> getAnswerByName(String name) {
+  public Map<String, Object> getAnswerByName(String name, String id) {
     List<QuestionEntity> questions = questionRepository.findAnswerByName(name);
 
     List<AnswerResponse> answers =

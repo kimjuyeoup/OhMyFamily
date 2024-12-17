@@ -73,14 +73,36 @@ public class SetQuestion {
     this.type = type;
   }
 
-  public Object getContentsFormatted(String name) {
+  public Object getContentsFormatted(String name, String id) {
+
     if ("select".equalsIgnoreCase(this.type)) {
-      String formattedContent = content != null ? content.replace("{name}", name) : null;
+      String formattedContent = "";
+      if ("{content}".equals(this.content)) {
+        if (id.equals("1")) {
+          formattedContent = "송혜교 닮았다고 하세요";
+        } else if (id.equals("2")) {
+          formattedContent = "원빈 닮았다고 하세요";
+        } else if (id.equals("3")) {
+          formattedContent = "김태희, 송혜교, 손예진, 고수, 원빈, 정우성 ...더보기";
+        }
+      } else {
+        formattedContent = content != null ? content.replace("{name}", name) : null;
+      }
+
       String[] contentsArray =
           formattedContent != null ? formattedContent.split(",") : new String[] {};
 
       return contentsArray;
     } else {
+      if ("{content}".equals(content)) {
+        if (id.equals("1")) {
+          return "송혜교 닮았다고 하세요";
+        } else if (id.equals("2")) {
+          return "원빈 닮았다고 하세요";
+        } else if (id.equals("3")) {
+          return "김태희, 송혜교, 손예진, 고수, 원빈, 정우성 ...더보기";
+        }
+      }
       return content != null ? content.replace("{name}", name) : name;
     }
   }

@@ -32,6 +32,9 @@ public class QuestionEntity {
   @Column(name = "name")
   private String name;
 
+  @Column(name = "number")
+  private int number;
+
   @ManyToOne
   @JoinColumn(name = "set_id")
   private SetQuestion setQuestion;
@@ -62,6 +65,14 @@ public class QuestionEntity {
 
   public Member getMember() {
     return member;
+  }
+
+  public int getNumber() {
+    return number;
+  }
+
+  public void setNumber(int number) {
+    this.number = number;
   }
 
   public void setMember(Member member) {
