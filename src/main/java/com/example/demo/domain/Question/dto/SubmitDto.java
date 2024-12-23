@@ -6,6 +6,7 @@ public class SubmitDto {
   private Long id;
   private String name;
   private List<String> answer;
+  private int quizid;
 
   public SubmitDto(String name, List<String> answer) {
     this.name = name;
@@ -34,5 +35,13 @@ public class SubmitDto {
 
   public void setAnswer(List<String> answer) {
     this.answer = answer;
+  }
+
+  public int getQuizid() {
+    return quizid;
+  }
+
+  public void setQuizid(int quizid) {
+    this.quizid = quizid;
   }
 }

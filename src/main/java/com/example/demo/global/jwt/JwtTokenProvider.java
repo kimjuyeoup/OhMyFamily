@@ -66,6 +66,7 @@ public class JwtTokenProvider {
     UsernamePasswordAuthenticationToken authenticationToken =
         new UsernamePasswordAuthenticationToken(userId, null, null);
     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+    System.out.println(SecurityContextHolder.getContext().getAuthentication());
   }
 
   public String generateRefreshToken(Long userId) {

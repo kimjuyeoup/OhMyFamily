@@ -29,8 +29,8 @@ public class QuestionController {
   }
 
   @GetMapping("/answer")
-  public BaseResponse<Map<String, Object>> getAnswerByName(@RequestParam String name, String id) {
-    Map<String, Object> response = questionService.getAnswerByName(name, id);
+  public BaseResponse<Map<String, Object>> getAnswerByName(@RequestParam int quizid) {
+    Map<String, Object> response = questionService.getAnswerByName(quizid);
     return BaseResponse.onSuccess(response);
   }
 

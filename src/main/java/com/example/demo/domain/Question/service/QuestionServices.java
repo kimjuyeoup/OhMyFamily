@@ -12,9 +12,11 @@ import com.example.demo.domain.Question.entity.QuestionEntity;
 import com.example.demo.domain.Question.repository.QuestionRepository;
 import com.example.demo.domain.SetQuestion.entity.SetQuestion;
 import com.example.demo.domain.SetQuestion.repository.SetQuestionRepository;
+import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.domain.quiz.entity.Quiz;
 import com.example.demo.domain.quiz.repository.QuizRepository;
+import com.example.demo.global.jwt.CurrentToken;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,10 +29,11 @@ public class QuestionServices {
   private final QuizRepository quizRepository;
   private final SetQuestionRepository setQuestionRepository;
   private final MemberRepository memberRepository;
+  private final CurrentToken currentToken;
 
   public ScoreDto updateScoreByNickname(ScoreDto scoreDto) {
 
-    List<QuestionEntity> questions = questionRepository.findByName(scoreDto.getNickname());
+    List<QuestionEntity> questions = questionRepository.findAnswerByQuizid(scoreDto.getQuizid());
     if (questions.isEmpty()) {
       throw new IllegalArgumentException("Questions not found for user: " + scoreDto.getNickname());
     }
@@ -54,40 +57,44 @@ public class QuestionServices {
     List<SetQuestion> setQuestions = setQuestionRepository.findAllById(setIds);
     Long totalScore = setQuestions.stream().mapToLong(SetQuestion::getScore).sum();
 
-    Quiz quiz = new Quiz();
-    quiz.setNickname(scoreDto.getNickname());
-    quiz.setScore(totalScore);
-    quiz.setCheck(false);
+    Quiz quiz =
+        Quiz.builder()
+            .nickname(scoreDto.getNickname())
+            .score(totalScore)
+            .check(false)
+            .id((long) scoreDto.getQuizid())
+            .build();
 
     quizRepository.save(quiz);
-    return new ScoreDto(10L, scoreDto.getNickname(), scoreDto.getResult());
+    return new ScoreDto(10L, scoreDto.getNickname(), scoreDto.getResult(), scoreDto.getQuizid());
   }
 
   public SubmitDto updateSubmitByNickname(SubmitDto submitDto) {
 
-    /*Long memberId = CurrentToken.getCurrentMemberId();
+    Long memberId = currentToken.getCurrentMemberId();
     Member member =
         memberRepository
             .findById(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("Member not found"));*/
+            .orElseThrow(() -> new IllegalArgumentException("Member not found"));
     List<String> answers = submitDto.getAnswer();
     List<SetQuestion> setQuestions = setQuestionRepository.findAll();
     List<QuestionEntity> questions = new ArrayList<>();
-    int maxnumber = questionRepository.findMaxNumber(submitDto.getName());
+    int maxnumber = questionRepository.findQuizId();
     int number = maxnumber + 1;
     for (int i = 0; i < answers.size(); i++) {
       QuestionEntity question = new QuestionEntity();
       question.setName(submitDto.getName());
       question.setAnswer(answers.get(i));
-      // question.setMember(member);
+      question.setMember(member);
       if (i < setQuestions.size()) {
         SetQuestion setQuestion = setQuestions.get(i);
         question.setSetId(setQuestion.getId());
       }
-      question.setNumber(number);
+      question.setQuizid(number);
       questions.add(question);
     }
     questionRepository.saveAll(questions);
+    submitDto.setQuizid(number);
 
     return submitDto;
   }
