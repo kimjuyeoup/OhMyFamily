@@ -7,16 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.example.demo.domain.Question.entity.QuestionEntity;
 
-import io.lettuce.core.dynamic.annotation.Param;
-
 public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> {
 
   List<QuestionEntity> findByName(String name);
 
-  List<QuestionEntity> findAnswerByName(String name);
+  List<QuestionEntity> findAnswerByQuizid(int quiz_id);
 
   List<QuestionEntity> findBySetQuestionId(Long setId);
 
-  @Query("SELECT COALESCE(MAX(q.number),0) FROM QuestionEntity q WHERE q.name = :name")
-  int findMaxNumber(@Param("name") String name);
+  @Query("SELECT COALESCE(MAX(q.quizid), 0) FROM QuestionEntity q")
+  int findQuizId();
 }

@@ -6,11 +6,13 @@ public class ScoreDto {
   private List<ResultDto> result;
   private String nickname;
   private Long score;
+  private int quizid;
 
-  public ScoreDto(Long score, String nickname, List<ResultDto> result) {
+  public ScoreDto(Long score, String nickname, List<ResultDto> result, int quizid) {
     this.score = score;
     this.nickname = nickname;
     this.result = result;
+    this.quizid = quizid;
   }
 
   public List<ResultDto> getResult() {
@@ -35,5 +37,13 @@ public class ScoreDto {
 
   public void setScore(Long score) {
     this.score = score;
+  }
+
+  public int getQuizid() {
+    return quizid;
+  }
+
+  public void setQuizid(int quizid) {
+    this.quizid = quizid;
   }
 }

@@ -41,15 +41,16 @@ public class QuestionService {
         .collect(Collectors.toList());
   }
 
-  public Map<String, Object> getAnswerByName(String name, String id) {
-    List<QuestionEntity> questions = questionRepository.findAnswerByName(name);
+  public Map<String, Object> getAnswerByName(int quizid) {
+    List<QuestionEntity> questions = questionRepository.findAnswerByQuizid(quizid);
 
     List<AnswerResponse> answers =
         questions.stream()
             .map(
                 question -> {
                   SetQuestion setQuestion = question.getSetQuestion();
-                  String title = setQuestion != null ? setQuestion.getTitle(name) : null;
+                  String title =
+                      setQuestion != null ? setQuestion.getTitle(question.getName()) : null;
                   String icon = setQuestion != null ? setQuestion.getIcon() : null;
 
                   return AnswerResponse.builder()

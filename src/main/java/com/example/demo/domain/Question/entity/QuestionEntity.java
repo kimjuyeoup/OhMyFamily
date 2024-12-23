@@ -32,8 +32,8 @@ public class QuestionEntity {
   @Column(name = "name")
   private String name;
 
-  @Column(name = "number")
-  private int number;
+  @Column(name = "quizid")
+  private int quizid;
 
   @ManyToOne
   @JoinColumn(name = "set_id")
@@ -67,12 +67,12 @@ public class QuestionEntity {
     return member;
   }
 
-  public int getNumber() {
-    return number;
+  public int getQuizid() {
+    return quizid;
   }
 
-  public void setNumber(int number) {
-    this.number = number;
+  public void setQuizid(int quizid) {
+    this.quizid = quizid;
   }
 
   public void setMember(Member member) {
