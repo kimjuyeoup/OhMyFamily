@@ -12,6 +12,7 @@ import com.example.demo.domain.Question.entity.QuestionEntity;
 import com.example.demo.domain.Question.repository.QuestionRepository;
 import com.example.demo.domain.SetQuestion.entity.SetQuestion;
 import com.example.demo.domain.SetQuestion.repository.SetQuestionRepository;
+import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.domain.quiz.entity.Quiz;
 import com.example.demo.domain.quiz.repository.QuizRepository;
@@ -55,13 +56,18 @@ public class QuestionServices {
 
     List<SetQuestion> setQuestions = setQuestionRepository.findAllById(setIds);
     Long totalScore = setQuestions.stream().mapToLong(SetQuestion::getScore).sum();
-
+    Long memberId = 1L;
+    Member member =
+        memberRepository
+            .findById(memberId)
+            .orElseThrow(() -> new IllegalArgumentException("Member not found"));
     Quiz quiz =
         Quiz.builder()
             .nickname(scoreDto.getNickname())
             .score(totalScore)
             .check(false)
             .id((long) scoreDto.getQuizid())
+            .member(member)
             .build();
 
     quizRepository.save(quiz);
@@ -70,11 +76,12 @@ public class QuestionServices {
 
   public SubmitDto updateSubmitByNickname(SubmitDto submitDto) {
 
-    /*Long memberId = currentToken.getCurrentMemberId();
+    // Long memberId = currentToken.getCurrentMemberId();
+    Long memberId = 1L;
     Member member =
         memberRepository
             .findById(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("Member not found"));*/
+            .orElseThrow(() -> new IllegalArgumentException("Member not found"));
     List<String> answers = submitDto.getAnswer();
     List<SetQuestion> setQuestions = setQuestionRepository.findAll();
     List<QuestionEntity> questions = new ArrayList<>();
@@ -84,7 +91,7 @@ public class QuestionServices {
       QuestionEntity question = new QuestionEntity();
       question.setName(submitDto.getName());
       question.setAnswer(answers.get(i));
-      // question.setMember(member);
+      question.setMember(member);
       if (i < setQuestions.size()) {
         SetQuestion setQuestion = setQuestions.get(i);
         question.setSetId(setQuestion.getId());
