@@ -5,11 +5,14 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.domain.Question.dto.QuizDto;
 import com.example.demo.domain.Question.dto.ScoreDto;
 import com.example.demo.domain.Question.dto.SubmitDto;
 import com.example.demo.domain.Question.service.QuestionService;
 import com.example.demo.domain.Question.service.QuestionServices;
 import com.example.demo.domain.SetQuestion.dto.SetQuestionDto;
+import com.example.demo.domain.member.service.MemberCommandService;
+import com.example.demo.domain.member.service.MemberQueryService;
 import com.example.demo.global.exception.BaseResponse;
 import com.example.demo.global.jwt.JwtTokenProvider;
 
@@ -22,6 +25,8 @@ public class QuestionController {
   private final QuestionService questionService;
   private final QuestionServices questionServices;
   private final JwtTokenProvider jwtTokenProvider;
+  private final MemberCommandService memberCommandService;
+  private final MemberQueryService memberQueryService;
 
   @GetMapping("/question")
   public BaseResponse<List<SetQuestionDto>> getAllQuestions(@RequestParam String name, String id) {
@@ -41,9 +46,11 @@ public class QuestionController {
   }
 
   @PostMapping("/submit")
-  public BaseResponse<SubmitDto> submitQuestion(@ModelAttribute SubmitDto request) {
-    SubmitDto submit = questionServices.updateSubmitByNickname(request);
-    return BaseResponse.onSuccess(submit);
+  public BaseResponse<QuizDto> submitQuestion(
+      @ModelAttribute SubmitDto request, @RequestHeader("Authorization") String accessToken) {
+    Long memberid = memberQueryService.getMemberId(accessToken);
+    QuizDto quizDto = questionServices.updateSubmitByNickname(request, memberid);
+    return BaseResponse.onSuccess(quizDto);
   }
 
   // @RequestBody 대신 @ModelAttribute 사용하면 폼데이터를 받는다.

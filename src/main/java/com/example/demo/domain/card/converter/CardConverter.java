@@ -8,7 +8,7 @@ public class CardConverter {
   public static Card toCard(CardRequest request) {
     return Card.builder()
         .score(request.getScore())
-        .imageUrl(request.getImageUrl())
+        .icon(request.getIcon())
         .title(request.getTitle())
         .subtitle(request.getSubtitle())
         .content(request.getContent())

@@ -31,4 +31,15 @@ public class MemberQueryService {
 
     return GetMemberResponseDto.fromEntity(member);
   }
+
+  public Long getMemberId(String accessToken) {
+
+    Long memberId = jwtTokenProvider.getMemberIdFromToken(accessToken);
+
+    memberRepository
+        .findById(memberId)
+        .orElseThrow(() -> new GlobalException(GlobalErrorCode.NOT_FOUND_MEMBER));
+
+    return memberId;
+  }
 }
