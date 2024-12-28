@@ -5,6 +5,7 @@ import java.util.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.Question.dto.QuizDto;
 import com.example.demo.domain.Question.dto.ResultDto;
 import com.example.demo.domain.Question.dto.ScoreDto;
 import com.example.demo.domain.Question.dto.SubmitDto;
@@ -35,7 +36,7 @@ public class QuestionServices {
 
     List<QuestionEntity> questions = questionRepository.findAnswerByQuizid(scoreDto.getQuizid());
     if (questions.isEmpty()) {
-      throw new IllegalArgumentException("Questions not found for user: " + scoreDto.getNickname());
+      throw new IllegalArgumentException("Questions not found for user");
     }
 
     for (int i = 0; i < scoreDto.getResult().size(); i++) {
@@ -63,7 +64,7 @@ public class QuestionServices {
             .orElseThrow(() -> new IllegalArgumentException("Member not found"));
     Quiz quiz =
         Quiz.builder()
-            .nickname(scoreDto.getNickname())
+            .nickname(questions.get(0).getName())
             .score(totalScore)
             .check(false)
             .id((long) scoreDto.getQuizid())
@@ -71,10 +72,10 @@ public class QuestionServices {
             .build();
 
     quizRepository.save(quiz);
-    return new ScoreDto(10L, scoreDto.getNickname(), scoreDto.getResult(), scoreDto.getQuizid());
+    return new ScoreDto(totalScore, scoreDto.getResult(), scoreDto.getQuizid());
   }
 
-  public SubmitDto updateSubmitByNickname(SubmitDto submitDto) {
+  public QuizDto updateSubmitByNickname(SubmitDto submitDto) {
 
     // Long memberId = currentToken.getCurrentMemberId();
     Long memberId = 1L;
@@ -102,6 +103,6 @@ public class QuestionServices {
     questionRepository.saveAll(questions);
     submitDto.setQuizid(number);
 
-    return submitDto;
+    return new QuizDto(number);
   }
 }
