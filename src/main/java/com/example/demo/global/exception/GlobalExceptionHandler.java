@@ -1,5 +1,9 @@
 package com.example.demo.global.exception;
 
+import java.security.SignatureException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,5 +17,19 @@ public class GlobalExceptionHandler {
   protected BaseResponse handleCustomException(GlobalException e) {
     log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
     return BaseResponse.onFailure(e.getErrorCode(), null);
+  }
+
+  @ExceptionHandler(value = {TokenException.class})
+  protected ResponseEntity<BaseResponse<Object>> handleTokenException(TokenException e) {
+    log.error("handleTokenException throw TokenException : {}", e.getErrorCode());
+    BaseResponse<Object> errorResponse = BaseResponse.onFailure(e.getErrorCode(), null);
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+  }
+
+  @ExceptionHandler(value = {SignatureException.class})
+  protected ResponseEntity<BaseResponse> handleSignatureException(SignatureException e) {
+    log.error("JWT SignatureException: {}", e.getMessage());
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        .body(BaseResponse.onFailure(GlobalErrorCode.INVALID_TOKEN, null));
   }
 }

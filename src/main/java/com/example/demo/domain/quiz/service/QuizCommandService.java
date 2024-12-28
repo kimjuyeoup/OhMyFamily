@@ -12,7 +12,7 @@ import com.example.demo.domain.quiz.entity.Quiz;
 import com.example.demo.domain.quiz.repository.QuizRepository;
 import com.example.demo.global.exception.GlobalErrorCode;
 import com.example.demo.global.exception.GlobalException;
-import com.example.demo.global.oAuth.AuthTokensGenerator;
+import com.example.demo.global.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,14 +22,13 @@ import lombok.RequiredArgsConstructor;
 public class QuizCommandService {
 
   private final QuizRepository quizRepository;
-  private final AuthTokensGenerator authTokensGenerator;
-
+  private final JwtTokenProvider jwtTokenProvider;
   private final MemberRepository memberRepository;
 
   public SetQuizNicknameResponse setQuizNickname(
       String accessToken, SetQuizNicknameRequest request) {
 
-    Long memberId = authTokensGenerator.extractMemberId(accessToken);
+    Long memberId = jwtTokenProvider.getMemberIdFromToken(accessToken);
 
     Member member =
         memberRepository

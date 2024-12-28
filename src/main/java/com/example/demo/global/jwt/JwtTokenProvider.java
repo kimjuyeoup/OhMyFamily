@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.global.exception.GlobalErrorCode;
-import com.example.demo.global.exception.GlobalException;
+import com.example.demo.global.exception.TokenException;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -104,17 +104,23 @@ public class JwtTokenProvider {
   }
 
   public boolean isTokenValid(String token) {
+    System.out.println("12");
     try {
+      System.out.println("13");
       Jws<Claims> claims = getClaims(token);
+      System.out.println("14");
       Date expiredDate = claims.getBody().getExpiration();
+      System.out.println("15 " + expiredDate.toString());
       return expiredDate.after(new Date());
     } catch (ExpiredJwtException e) {
-      throw new RuntimeException();
+      System.out.println("16");
+      throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
     } catch (SecurityException
         | MalformedJwtException
         | UnsupportedJwtException
         | IllegalArgumentException e) {
-      throw new RuntimeException();
+      System.out.println("17");
+      throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
     }
   }
 
@@ -123,6 +129,6 @@ public class JwtTokenProvider {
       Claims claims = getClaims(token).getBody();
       return Long.parseLong(claims.getSubject());
     }
-    throw new GlobalException(GlobalErrorCode.NOT_FOUND_MEMBER);
+    throw new TokenException(GlobalErrorCode.NOT_FOUND_MEMBER);
   }
 }
