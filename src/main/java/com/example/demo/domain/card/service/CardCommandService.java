@@ -27,7 +27,7 @@ public class CardCommandService {
     Card card = new Card();
     card.setContent("사실 당신은 인간이 된 꿈을 꾸고 있는\n 감자인 것입니다.\n 감자가 사람이 되기 위해서는 쑥과 마늘을...더보기");
     card.setId(1L);
-    card.setImageUrl("P20");
+    card.setIcon("P20");
     card.setSubtitle("저는 말하는 감자라구요. 아시겠어요?");
     card.setScore(20L);
     card.setTitle("말하는 감자");
@@ -35,7 +35,7 @@ public class CardCommandService {
     card2.setContent(
         "부모님을 사랑하지만 마음처럼 안 따라주는 당신!\n 오늘 같은 날은 서른한 가지 맛 아이스크림 먹으면서\n 다정한 시간 보내보는 건 어때요?");
     card2.setId(2L);
-    card2.setImageUrl("P40");
+    card2.setIcon("P40");
     card2.setSubtitle("효도를 이렇게 콕 찍어서 뇸!");
     card2.setScore(40L);
     card2.setTitle("효자 맛보기 스푼");
@@ -43,7 +43,7 @@ public class CardCommandService {
     card3.setContent(
         "부모님을 사랑하지만 표현에 조금 서툰 당신!\n 어떤 대답이 맞고 틀렸는지를 주제로 얘기하면서\n 부모님과 조금 더 가까워지는 건 어때요?");
     card3.setId(3L);
-    card3.setImageUrl("P60");
+    card3.setIcon("P60");
     card3.setSubtitle("어어색할거같진않고 분명히어색할거같아요");
     card3.setScore(60L);
     card3.setTitle("효자 호소인");
@@ -51,14 +51,14 @@ public class CardCommandService {
     card4.setContent(
         "효자에 가까워지고 있는 당신!\n 이정도면 스스로를 대견하게 생각해도 될 듯.\n효자에 가까워지고 있는 당신!\n 이정도면 스스로를 대견하게 생각해도 될 듯.");
     card4.setId(4L);
-    card4.setImageUrl("P80");
+    card4.setIcon("P80");
     card4.setSubtitle("홍진효");
     card4.setScore(80L);
     card4.setTitle("홍진효");
     Card card5 = new Card();
     card5.setContent("1등 효도템 부럽지 않은 성골 효자인 당신!\n 지금처럼 쭉 다정한 효자가 되어주세요!");
     card5.setId(5L);
-    card5.setImageUrl("P90");
+    card5.setIcon("P90");
     card5.setSubtitle("사랑하니까 바디프렌드 (둘 다 광고 아님)");
     card5.setScore(90L);
     card5.setTitle("인간 코지마");
@@ -66,7 +66,7 @@ public class CardCommandService {
     card6.setContent(
         "지금부터 부모님에 대한 지지관계를 철회한다.\n 오늘부터 부모님과 한 몸으로 간주하여\n 부모님에 대한 공격은 나에 대한 공격으로 간주한다.");
     card6.setId(6L);
-    card6.setImageUrl("P100");
+    card6.setIcon("P100");
     card6.setSubtitle("이거 본인이 맞추고 채점하는 거 아니그든요.");
     card6.setScore(100L);
     card6.setTitle("혹시 본인이세요?");

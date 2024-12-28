@@ -6,7 +6,7 @@ import lombok.Getter;
 public class CardRequest {
 
   Long score;
-  String imageUrl;
+  String icon;
   String title;
   String subtitle;
   String content;

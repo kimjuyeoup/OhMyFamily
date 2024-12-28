@@ -57,28 +57,21 @@ public class QuestionServices {
 
     List<SetQuestion> setQuestions = setQuestionRepository.findAllById(setIds);
     Long totalScore = setQuestions.stream().mapToLong(SetQuestion::getScore).sum();
-    Long memberId = 1L;
-    Member member =
-        memberRepository
-            .findById(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("Member not found"));
     Quiz quiz =
         Quiz.builder()
             .nickname(questions.get(0).getName())
             .score(totalScore)
             .check(false)
             .id((long) scoreDto.getQuizid())
-            .member(member)
+            .member(questions.get(0).getMember())
             .build();
 
     quizRepository.save(quiz);
     return new ScoreDto(totalScore, scoreDto.getResult(), scoreDto.getQuizid());
   }
 
-  public QuizDto updateSubmitByNickname(SubmitDto submitDto) {
+  public QuizDto updateSubmitByNickname(SubmitDto submitDto, Long memberId) {
 
-    // Long memberId = currentToken.getCurrentMemberId();
-    Long memberId = 1L;
     Member member =
         memberRepository
             .findById(memberId)
@@ -103,6 +96,6 @@ public class QuestionServices {
     questionRepository.saveAll(questions);
     submitDto.setQuizid(number);
 
-    return new QuizDto(number);
+    return new QuizDto(memberId);
   }
 }
