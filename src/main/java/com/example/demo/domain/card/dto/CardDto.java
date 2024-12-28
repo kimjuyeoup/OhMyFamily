@@ -5,7 +5,7 @@ import com.example.demo.domain.card.entity.Card;
 public class CardDto {
   private Long id;
   private Long score;
-  private String imageurl;
+  private String icon;
   private String title;
   private String subtitle;
   private String content;
@@ -14,7 +14,7 @@ public class CardDto {
   public CardDto(Card card, String name) {
     this.id = card.getId();
     this.score = card.getScore();
-    this.imageurl = card.getImageUrl();
+    this.icon = card.getIcon();
     this.title = card.getTitle();
     this.subtitle = card.getSubtitle();
     this.content = card.getContent();
@@ -37,12 +37,12 @@ public class CardDto {
     this.score = score;
   }
 
-  public String getImageurl() {
-    return imageurl;
+  public String getIcon() {
+    return icon;
   }
 
-  public void setImageurl(String imageurl) {
-    this.imageurl = imageurl;
+  public void setIcon(String icon) {
+    this.icon = icon;
   }
 
   public String getTitle() {

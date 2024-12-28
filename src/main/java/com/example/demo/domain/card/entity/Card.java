@@ -22,8 +22,8 @@ public class Card {
   @Column(name = "score")
   private Long score;
 
-  @Column(name = "image_url")
-  private String imageUrl;
+  @Column(name = "icon")
+  private String icon;
 
   @Column(name = "title")
   private String title;
@@ -54,12 +54,12 @@ public class Card {
     this.score = score;
   }
 
-  public String getImageUrl() {
-    return imageUrl;
+  public String getIcon() {
+    return icon;
   }
 
-  public void setImageUrl(String imageUrl) {
-    this.imageUrl = imageUrl;
+  public void setIcon(String icon) {
+    this.icon = icon;
   }
 
   public String getTitle() {
