@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.domain.Question.dto.QuizDto;
 import com.example.demo.domain.Question.dto.ScoreDto;
 import com.example.demo.domain.Question.dto.SubmitDto;
 import com.example.demo.domain.Question.service.QuestionService;
@@ -41,9 +42,9 @@ public class QuestionController {
   }
 
   @PostMapping("/submit")
-  public BaseResponse<SubmitDto> submitQuestion(@ModelAttribute SubmitDto request) {
-    SubmitDto submit = questionServices.updateSubmitByNickname(request);
-    return BaseResponse.onSuccess(submit);
+  public BaseResponse<QuizDto> submitQuestion(@ModelAttribute SubmitDto request) {
+    QuizDto quizDto = questionServices.updateSubmitByNickname(request);
+    return BaseResponse.onSuccess(quizDto);
   }
 
   // @RequestBody 대신 @ModelAttribute 사용하면 폼데이터를 받는다.
