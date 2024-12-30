@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.domain.Question.dto.InfoDto;
 import com.example.demo.domain.Question.dto.QuizDto;
 import com.example.demo.domain.Question.dto.ScoreDto;
 import com.example.demo.domain.Question.dto.SubmitDto;
@@ -37,6 +38,11 @@ public class QuestionController {
   public BaseResponse<Map<String, Object>> getAnswerByName(@RequestParam int quizid) {
     Map<String, Object> response = questionService.getAnswerByName(quizid);
     return BaseResponse.onSuccess(response);
+  }
+
+  @GetMapping("/user")
+  public BaseResponse<InfoDto> getUserInfo(@RequestParam int quizid) {
+    return BaseResponse.onSuccess(questionService.getInfo(quizid));
   }
 
   @PostMapping("/score")
