@@ -3,6 +3,7 @@ package com.example.demo.domain.s3;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.example.demo.global.exception.BaseResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -26,4 +27,3 @@ public class S3Controller {
     return BaseResponse.onSuccess("No file uploaded.");
   }
 }
-ggg
