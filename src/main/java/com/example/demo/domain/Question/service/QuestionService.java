@@ -8,12 +8,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.Question.dto.InfoDto;
 import com.example.demo.domain.Question.dto.response.AnswerResponse;
 import com.example.demo.domain.Question.entity.QuestionEntity;
 import com.example.demo.domain.Question.repository.QuestionRepository;
 import com.example.demo.domain.SetQuestion.dto.SetQuestionDto;
 import com.example.demo.domain.SetQuestion.entity.SetQuestion;
 import com.example.demo.domain.SetQuestion.repository.SetQuestionRepository;
+import com.example.demo.domain.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +26,7 @@ public class QuestionService {
 
   private final SetQuestionRepository setQuestionRepository;
   private final QuestionRepository questionRepository;
+  private final MemberRepository memberRepository;
 
   public List<SetQuestionDto> getQuestionByName(String name, String id) {
 
@@ -66,5 +69,13 @@ public class QuestionService {
     result.put("data", answers);
 
     return result;
+  }
+
+  public InfoDto getInfo(int quizid) {
+    String name = questionRepository.findNameByQuizid(quizid);
+    Long member = questionRepository.findMemberByQuizid(quizid);
+    String kakao_nickname = memberRepository.findKakaoNicknameByMember(member);
+
+    return new InfoDto(kakao_nickname, name);
   }
 }
