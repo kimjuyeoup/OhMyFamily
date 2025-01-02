@@ -7,10 +7,12 @@ public class SubmitDto {
   private String name;
   private List<String> answer;
   private int quizid;
+  private String image;
 
-  public SubmitDto(String name, List<String> answer) {
+  public SubmitDto(String name, List<String> answer, String image) {
     this.name = name;
     this.answer = answer;
+    this.image = image;
   }
 
   public Long getId() {
@@ -43,5 +45,13 @@ public class SubmitDto {
 
   public void setQuizid(int quizid) {
     this.quizid = quizid;
+  }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
   }
 }
