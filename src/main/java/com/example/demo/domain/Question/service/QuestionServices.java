@@ -93,6 +93,16 @@ public class QuestionServices {
       question.setQuizid(number);
       questions.add(question);
     }
+    if (submitDto.getImage() != null) {
+      QuestionEntity question = new QuestionEntity();
+      question.setName(submitDto.getName());
+      question.setMember(member);
+      question.setAnswer(submitDto.getImage());
+      question.setSetId((long) answers.size() + 1);
+      question.setQuizid(number);
+      questions.add(question);
+    }
+
     questionRepository.saveAll(questions);
     submitDto.setQuizid(number);
 
