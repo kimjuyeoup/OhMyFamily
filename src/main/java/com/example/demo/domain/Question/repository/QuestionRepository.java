@@ -25,4 +25,7 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> 
 
   @Query("SELECT q.member.id FROM QuestionEntity q WHERE q.quizid = :quizid")
   Long findMemberByQuizid(@Param("quizid") int quizid);
+
+  @Query("SELECT q.answer FROM QuestionEntity q WHERE q.quizid = :quizid AND q.setQuestion.id = 11")
+  String findAnswerByQuizid11(@Param("quizid") int quizid);
 }
