@@ -10,4 +10,5 @@ public class QuizDto {
   Boolean ischeck;
   String name;
   Long score;
+  String icon;
 }

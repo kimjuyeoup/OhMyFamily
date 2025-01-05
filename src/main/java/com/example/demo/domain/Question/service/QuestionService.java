@@ -49,6 +49,7 @@ public class QuestionService {
 
     List<AnswerResponse> answers =
         questions.stream()
+            .filter(question -> question.getSetId() <= 10)
             .map(
                 question -> {
                   SetQuestion setQuestion = question.getSetQuestion();
@@ -67,6 +68,7 @@ public class QuestionService {
 
     Map<String, Object> result = new HashMap<>();
     result.put("data", answers);
+    result.put("image", questionRepository.findAnswerByQuizid11(quizid));
 
     return result;
   }

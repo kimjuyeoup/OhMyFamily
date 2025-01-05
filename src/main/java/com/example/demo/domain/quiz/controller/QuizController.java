@@ -50,8 +50,11 @@ public class QuizController {
     List<QuizDto> data =
         quizRepository.findByMember(member).stream()
             .map(
-                quiz ->
-                    new QuizDto(quiz.getId(), quiz.getCheck(), quiz.getNickname(), quiz.getScore()))
+                quiz -> {
+                  String value = quizCommandService.getIcon(quiz.getId());
+                  return new QuizDto(
+                      quiz.getId(), quiz.getCheck(), quiz.getNickname(), quiz.getScore(), value);
+                })
             .collect(Collectors.toList());
 
     return BaseResponse.onSuccess(data);
