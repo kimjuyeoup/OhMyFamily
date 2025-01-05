@@ -106,6 +106,6 @@ public class QuestionServices {
     questionRepository.saveAll(questions);
     submitDto.setQuizid(number);
 
-    return new QuizDto(memberId);
+    return new QuizDto((long) number);
   }
 }
