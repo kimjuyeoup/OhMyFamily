@@ -76,15 +76,15 @@ public class QuestionServices {
         memberRepository
             .findById(memberId)
             .orElseThrow(() -> new IllegalArgumentException("Member not found"));
-    List<String> answers = submitDto.getAnswer();
+    List<String> answer = submitDto.getAnswer();
     List<SetQuestion> setQuestions = setQuestionRepository.findAll();
     List<QuestionEntity> questions = new ArrayList<>();
     int maxnumber = questionRepository.findQuizId();
     int number = maxnumber + 1;
-    for (int i = 0; i < answers.size(); i++) {
+    for (int i = 0; i < answer.size(); i++) {
       QuestionEntity question = new QuestionEntity();
       question.setName(submitDto.getName());
-      question.setAnswer(answers.get(i));
+      question.setAnswer(answer.get(i));
       question.setMember(member);
       if (i < setQuestions.size()) {
         SetQuestion setQuestion = setQuestions.get(i);
@@ -98,7 +98,7 @@ public class QuestionServices {
       question.setName(submitDto.getName());
       question.setMember(member);
       question.setAnswer(submitDto.getImage());
-      question.setSetId((long) answers.size() + 1);
+      question.setSetId((long) answer.size() + 1);
       question.setQuizid(number);
       questions.add(question);
     }
