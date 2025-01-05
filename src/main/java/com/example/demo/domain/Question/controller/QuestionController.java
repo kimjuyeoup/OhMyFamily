@@ -58,6 +58,5 @@ public class QuestionController {
     QuizDto quizDto = questionServices.updateSubmitByNickname(request, memberid);
     return BaseResponse.onSuccess(quizDto);
   }
-
   // @RequestBody 대신 @ModelAttribute 사용하면 폼데이터를 받는다.
 }
