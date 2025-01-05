@@ -53,7 +53,7 @@ public class QuestionController {
 
   @PostMapping("/submit")
   public BaseResponse<QuizDto> submitQuestion(
-      @ModelAttribute SubmitDto request, @RequestHeader("Authorization") String accessToken) {
+      @RequestBody SubmitDto request, @RequestHeader("Authorization") String accessToken) {
     Long memberid = memberQueryService.getMemberId(accessToken);
     QuizDto quizDto = questionServices.updateSubmitByNickname(request, memberid);
     return BaseResponse.onSuccess(quizDto);
