@@ -3,6 +3,7 @@ package com.example.demo.domain.quiz.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.Question.repository.QuestionRepository;
 import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.domain.quiz.converter.QuizConverter;
@@ -24,6 +25,7 @@ public class QuizCommandService {
   private final QuizRepository quizRepository;
   private final JwtTokenProvider jwtTokenProvider;
   private final MemberRepository memberRepository;
+  private final QuestionRepository questionRepository;
 
   public SetQuizNicknameResponse setQuizNickname(
       String accessToken, SetQuizNicknameRequest request) {
@@ -38,5 +40,15 @@ public class QuizCommandService {
     Quiz quiz = quizRepository.save(QuizConverter.toQuiz(request, member));
 
     return QuizConverter.toSetQuizNicknameResponse(quiz);
+  }
+
+  public String getIcon(Long a) {
+    if (questionRepository.findAnswerByQuizid11(a.intValue()) != null) {
+      String icon = questionRepository.findAnswerByQuizid11(a.intValue());
+      return icon;
+    } else {
+      String icon = "P" + quizRepository.findScoreByQuizid(a.intValue()).toString();
+      return icon;
+    }
   }
 }
