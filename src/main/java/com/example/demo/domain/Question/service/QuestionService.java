@@ -43,7 +43,7 @@ public class QuestionService {
                     question.getType()))
         .collect(Collectors.toList());
   }
-g
+
   public Map<String, Object> getAnswerByName(int quizid) {
     List<QuestionEntity> questions = questionRepository.findAnswerByQuizid(quizid);
 
