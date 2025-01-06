@@ -28,15 +28,15 @@ public class S3UploadService {
   public String uploadFile(MultipartFile file) {
     ObjectMetadata metadata = new ObjectMetadata();
     metadata.setContentLength(file.getSize());
+    String keyName = generateQuizKeyName();
     System.out.println("파일 이름" + file.getOriginalFilename());
     try {
       amazonS3.putObject(
-          new PutObjectRequest(
-              amazonConfig.getBucket(), generateQuizKeyName(), file.getInputStream(), metadata));
+          new PutObjectRequest(amazonConfig.getBucket(), keyName, file.getInputStream(), metadata));
     } catch (IOException e) {
       log.error("error at AmazonS3Manager uploadFile : {}", (Object) e.getStackTrace());
     }
-    return amazonS3.getUrl(amazonConfig.getBucket(), generateQuizKeyName()).toString();
+    return amazonS3.getUrl(amazonConfig.getBucket(), keyName).toString();
   }
 
   public String generateQuizKeyName() {
