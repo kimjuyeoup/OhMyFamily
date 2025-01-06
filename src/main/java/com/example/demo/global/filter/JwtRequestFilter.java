@@ -26,7 +26,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
   private final JwtTokenProvider jwtAuthProvider;
   private final UserDetailsService userDetailsService;
 
-  private final String[] excludedUrls = {"/api/v1/member/kakao", "/api/user"};
+  private final String[] excludedUrls = {"/api/v1/member/kakao", "/api/user", "/api/answer"};
 
   @Override
   protected void doFilterInternal(
