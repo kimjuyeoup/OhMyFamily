@@ -11,37 +11,37 @@ springdoc:
     displayRequestDuration: true
 ---
 # h2
-#spring:
-#  h2:
-#    console:
-#      enabled: true
-#      path: ${H2_PATH}
-#      settings:
-#        web-allow-others: true
-#  datasource:
-#    url: ${H2_URL}
-#    driver-class-name: org.h2.Driver
-#    username: ${H2_USERNAME}
-#    password: ${H2_PASSWORD}
-#  jpa:
-#    database-platform: org.hibernate.dialect.H2Dialect
-#    hibernate:
-#      ddl-auto: create
-
 spring:
-  profiles:
-    active: local
-  session:
-    jdbc:
-      initialize-schema: always
+  h2:
+    console:
+      enabled: true
+      path: ${H2_PATH}
+      settings:
+        web-allow-others: true
   datasource:
-    url: jdbc:mysql://localhost:3306/OMF
-    username: root
-    password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${H2_URL}
+    driver-class-name: org.h2.Driver
+    username: ${H2_USERNAME}
+    password: ${H2_PASSWORD}
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
+
+#spring:
+#  profiles:
+#    active: local
+#  session:
+#    jdbc:
+#      initialize-schema: always
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/OMF
+#    username: root
+#    password: 1234
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
 
 ---
 #jwt
