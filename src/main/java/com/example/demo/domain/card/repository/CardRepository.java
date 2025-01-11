@@ -8,4 +8,6 @@ import com.example.demo.domain.card.entity.Card;
 
 public interface CardRepository extends JpaRepository<Card, Long> {
   List<Card> findByScore(Long score);
+
+  String findIconByScore(Long score);
 }
