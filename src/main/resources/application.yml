@@ -38,6 +38,7 @@ spring:
 #    hibernate:
 #      ddl-auto: update
 
+
 ---
 #jwt
 jwt:
