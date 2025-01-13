@@ -45,6 +45,7 @@ public class QuizCommandService {
   }
 
   public String getIcon(Long a) {
+    System.out.println(questionRepository.findAnswerByQuizid11(a.intValue()) + "a의 값 : " + a);
     if (questionRepository.findAnswerByQuizid11(a.intValue()) != null) {
       String icon = questionRepository.findAnswerByQuizid11(a.intValue());
       return icon;

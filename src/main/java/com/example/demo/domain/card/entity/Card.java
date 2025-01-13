@@ -34,6 +34,9 @@ public class Card {
   @Column(name = "content")
   private String content;
 
+  @Column(name = "name")
+  private String name;
+
   /*@ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "quiz")
   private Quiz quiz;*/
@@ -84,5 +87,13 @@ public class Card {
 
   public void setContent(String content) {
     this.content = content;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

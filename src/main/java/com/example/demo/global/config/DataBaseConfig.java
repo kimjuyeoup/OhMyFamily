@@ -1,11 +1,19 @@
 package com.example.demo.global.config;
 
-/*@Component
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+@Component
 public class DataBaseConfig implements CommandLineRunner {
 
   private static final String DB_URL = "jdbc:mysql://localhost:3306/";
-  private static final String USER = System.getenv("MYSQL_USERNAME"); // 환경변수 MYSQL_USERNAME
-  private static final String PASSWORD = System.getenv("MYSQL_PASSWORD"); // 환경변수 MYSQL_PASSWORD
+  private static final String USER = "root";
+  private static final String PASSWORD = "1234";
   private static final String DATABASE_NAME = "OMF";
 
   @Override
@@ -20,4 +28,4 @@ public class DataBaseConfig implements CommandLineRunner {
       throw new RuntimeException("데이터베이스 생성 중 오류 발생!", e);
     }
   }
-}*/
+}
