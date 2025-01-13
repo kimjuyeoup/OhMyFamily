@@ -100,26 +100,23 @@ public class JwtTokenProvider {
   }
 
   private Jws<Claims> getClaims(String token) {
+    if (token.startsWith("Bearer ")) {
+      token = token.substring(6);
+    }
     return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
   }
 
   public boolean isTokenValid(String token) {
-    System.out.println("12");
     try {
-      System.out.println("13");
       Jws<Claims> claims = getClaims(token);
-      System.out.println("14");
       Date expiredDate = claims.getBody().getExpiration();
-      System.out.println("15 " + expiredDate.toString());
       return expiredDate.after(new Date());
     } catch (ExpiredJwtException e) {
-      System.out.println("16");
       throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
     } catch (SecurityException
         | MalformedJwtException
         | UnsupportedJwtException
         | IllegalArgumentException e) {
-      System.out.println("17");
       throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
     }
   }
