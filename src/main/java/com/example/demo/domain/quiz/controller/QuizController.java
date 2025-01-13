@@ -40,13 +40,13 @@ public class QuizController {
 
   @GetMapping("/search")
   public BaseResponse<List<QuizDto>> getData(@RequestHeader("Authorization") String accessToken) {
-
-    Long memberid = memberQueryService.getMemberId(accessToken);
+    System.out.println(accessToken);
+    Long memberId = memberQueryService.getMemberId(accessToken);
+    System.out.println(memberId);
     Member member =
         memberRepository
-            .findById(memberid)
+            .findById(memberId)
             .orElseThrow(() -> new GlobalException(GlobalErrorCode.NOT_FOUND_MEMBER));
-
     List<QuizDto> data =
         quizRepository.findByMember(member).stream()
             .map(
@@ -56,7 +56,6 @@ public class QuizController {
                       quiz.getId(), quiz.getCheck(), quiz.getNickname(), quiz.getScore(), value);
                 })
             .collect(Collectors.toList());
-
     return BaseResponse.onSuccess(data);
   }
 }

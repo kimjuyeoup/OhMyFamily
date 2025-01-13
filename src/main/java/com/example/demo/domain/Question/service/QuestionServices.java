@@ -17,7 +17,6 @@ import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.domain.quiz.entity.Quiz;
 import com.example.demo.domain.quiz.repository.QuizRepository;
-import com.example.demo.global.jwt.CurrentToken;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +29,6 @@ public class QuestionServices {
   private final QuizRepository quizRepository;
   private final SetQuestionRepository setQuestionRepository;
   private final MemberRepository memberRepository;
-  private final CurrentToken currentToken;
 
   public ScoreDto updateScoreByNickname(ScoreDto scoreDto) {
 

@@ -34,6 +34,9 @@ public class CardController {
     List<Card> cards = cardService.findCardsByScore(score);
     quizRepository.updateCheck(quizid);
 
-    return BaseResponse.onSuccess(cards.get(0));
+    Card card = cards.get(0);
+    card.setName(name);
+
+    return BaseResponse.onSuccess(card);
   }
 }
