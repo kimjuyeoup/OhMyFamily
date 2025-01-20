@@ -68,14 +68,14 @@ public class QuestionService {
 
     Map<String, Object> result = new HashMap<>();
     result.put("data", answers);
-    result.put("image", questionRepository.findAnswerByQuizid11(quizid));
+    result.put("image", questionRepository.findFirstAnswerByQuizid11(quizid));
 
     return result;
   }
 
   public InfoDto getInfo(int quizid) {
-    String name = questionRepository.findNameByQuizid(quizid);
-    Long member = questionRepository.findMemberByQuizid(quizid);
+    String name = questionRepository.findFirstNameByQuizid(quizid);
+    Long member = questionRepository.findFirstMemberByQuizid(quizid);
     String kakao_nickname = memberRepository.findKakaoNicknameByMember(member);
 
     return new InfoDto(kakao_nickname, name);

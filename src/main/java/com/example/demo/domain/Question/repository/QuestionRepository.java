@@ -20,12 +20,19 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> 
   @Query("SELECT COALESCE(MAX(q.quizid), 0) FROM QuestionEntity q")
   int findQuizId();
 
-  @Query("SELECT q.name FROM QuestionEntity q WHERE q.quizid = :quizid")
-  String findNameByQuizid(@Param("quizid") int quizid);
+  @Query(
+      value = "SELECT q.name FROM question_entity q WHERE q.quizid = :quizid LIMIT 1",
+      nativeQuery = true)
+  String findFirstNameByQuizid(@Param("quizid") int quizid);
 
-  @Query("SELECT q.member.id FROM QuestionEntity q WHERE q.quizid = :quizid")
-  Long findMemberByQuizid(@Param("quizid") int quizid);
+  @Query(
+      value = "SELECT q.member_id FROM question_entity q WHERE q.quizid = :quizid LIMIT 1",
+      nativeQuery = true)
+  Long findFirstMemberByQuizid(@Param("quizid") int quizid);
 
-  @Query("SELECT q.answer FROM QuestionEntity q WHERE q.quizid = :quizid AND q.setQuestion.id = 11")
-  String findAnswerByQuizid11(@Param("quizid") int quizid);
+  @Query(
+      value =
+          "SELECT q.answer FROM question_entity q WHERE q.quizid = :quizid AND q.set_question_id = 11 LIMIT 1",
+      nativeQuery = true)
+  String findFirstAnswerByQuizid11(@Param("quizid") int quizid);
 }
