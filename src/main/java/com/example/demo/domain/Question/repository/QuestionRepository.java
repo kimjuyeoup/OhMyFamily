@@ -1,6 +1,7 @@
 package com.example.demo.domain.Question.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,12 +24,12 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> 
   @Query(
       value = "SELECT q.name FROM question_entity q WHERE q.quizid = :quizid LIMIT 1",
       nativeQuery = true)
-  List<String> findNameByQuizid(@Param("quizid") int quizid);
+  Optional<String> findNameByQuizid(@Param("quizid") int quizid);
 
   @Query(
       value = "SELECT q.member_id FROM question_entity q WHERE q.quizid = :quizid LIMIT 1",
       nativeQuery = true)
-  List<Long> findMemberByQuizid(@Param("quizid") int quizid);
+  Optional<Long> findMemberByQuizid(@Param("quizid") int quizid);
 
   @Query(
       value =
