@@ -23,16 +23,16 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> 
   @Query(
       value = "SELECT q.name FROM question_entity q WHERE q.quizid = :quizid LIMIT 1",
       nativeQuery = true)
-  String findFirstNameByQuizid(@Param("quizid") int quizid);
+  List<String> findNameByQuizid(@Param("quizid") int quizid);
 
   @Query(
       value = "SELECT q.member_id FROM question_entity q WHERE q.quizid = :quizid LIMIT 1",
       nativeQuery = true)
-  Long findFirstMemberByQuizid(@Param("quizid") int quizid);
+  List<Long> findMemberByQuizid(@Param("quizid") int quizid);
 
   @Query(
       value =
           "SELECT q.answer FROM question_entity q WHERE q.quizid = :quizid AND q.set_question_id = 11 LIMIT 1",
       nativeQuery = true)
-  String findFirstAnswerByQuizid11(@Param("quizid") int quizid);
+  String findAnswerByQuizid11(@Param("quizid") int quizid);
 }
