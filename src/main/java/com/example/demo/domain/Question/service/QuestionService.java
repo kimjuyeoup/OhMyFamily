@@ -74,8 +74,8 @@ public class QuestionService {
   }
 
   public InfoDto getInfo(int quizid) {
-    String name = questionRepository.findNameByQuizid(quizid).stream().findFirst().orElse(null);
-    Long member = questionRepository.findMemberByQuizid(quizid).stream().findFirst().orElse(null);
+    String name = questionRepository.findNameByQuizid(quizid).orElse(null);
+    Long member = questionRepository.findMemberByQuizid(quizid).orElse(null);
     String kakao_nickname = memberRepository.findKakaoNicknameByMember(member);
 
     return new InfoDto(kakao_nickname, name);
