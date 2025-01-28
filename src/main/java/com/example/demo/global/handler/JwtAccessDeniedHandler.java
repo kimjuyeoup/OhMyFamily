@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -23,14 +24,11 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
       HttpServletResponse response,
       AccessDeniedException accessDeniedException)
       throws IOException {
-    response.setContentType("application/json; charset=UTF-8");
+    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.setStatus(HttpStatus.FORBIDDEN.value());
 
-    System.out.println("Access denied" + request.getRequestURI());
-    accessDeniedException.printStackTrace();
-
     BaseResponse<Object> errorResponse =
-        BaseResponse.onFailure(GlobalErrorCode.NOT_FOUND_MEMBER, null);
+        BaseResponse.onFailure(GlobalErrorCode.ACCESS_DENIED, null);
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.writeValue(response.getOutputStream(), errorResponse);
