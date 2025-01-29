@@ -8,12 +8,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.example.demo.global.exception.BaseResponse;
-import com.example.demo.global.exception.GlobalErrorCode;
-import com.example.demo.global.exception.TokenException;
+import com.example.demo.global.exception.GlobalException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
@@ -25,13 +25,11 @@ public class JwtAuthExceptionHandlingFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
     try {
       filterChain.doFilter(request, response);
-    } catch (TokenException e) {
-      response.setContentType("application/json; charset=UTF-8");
+    } catch (GlobalException e) {
+      response.setContentType(MediaType.APPLICATION_JSON_VALUE);
       response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
-      GlobalErrorCode code = e.getErrorCode();
-
-      BaseResponse<Object> errorResponse = BaseResponse.onFailure(code, null);
+      BaseResponse<Object> errorResponse = BaseResponse.onFailure(e.getErrorCode(), null);
 
       ObjectMapper mapper = new ObjectMapper();
       mapper.writeValue(response.getOutputStream(), errorResponse);
