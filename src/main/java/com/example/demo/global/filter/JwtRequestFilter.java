@@ -1,7 +1,6 @@
 package com.example.demo.global.filter;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.example.demo.global.exception.GlobalErrorCode;
+import com.example.demo.global.exception.GlobalException;
 import com.example.demo.global.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
@@ -56,10 +56,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                   userDetails, "", userDetails.getAuthorities());
           SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         } else {
-          throw new RuntimeException(GlobalErrorCode.NOT_FOUND_MEMBER.getMessage());
+          throw new GlobalException(GlobalErrorCode.NOT_FOUND_MEMBER);
         }
       } else {
-        throw new RemoteException(GlobalErrorCode.INVALID_TOKEN.getMessage());
+        throw new GlobalException(GlobalErrorCode.INVALID_TOKEN);
       }
     }
     filterChain.doFilter(request, response);
