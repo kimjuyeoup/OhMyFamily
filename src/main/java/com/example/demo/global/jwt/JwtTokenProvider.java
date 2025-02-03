@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.global.exception.GlobalErrorCode;
+import com.example.demo.global.exception.GlobalException;
 import com.example.demo.global.exception.TokenException;
 
 import io.jsonwebtoken.*;
@@ -112,12 +113,12 @@ public class JwtTokenProvider {
       Date expiredDate = claims.getBody().getExpiration();
       return expiredDate.after(new Date());
     } catch (ExpiredJwtException e) {
-      throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
+      throw new GlobalException(GlobalErrorCode.TOKEN_EXPIRED);
     } catch (SecurityException
         | MalformedJwtException
         | UnsupportedJwtException
         | IllegalArgumentException e) {
-      throw new TokenException(GlobalErrorCode.INVALID_TOKEN);
+      throw new GlobalException(GlobalErrorCode.INVALID_TOKEN);
     }
   }
 
