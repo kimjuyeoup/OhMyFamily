@@ -5,10 +5,9 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.demo.domain.Question.entity.QuestionEntity;
-
-import io.lettuce.core.dynamic.annotation.Param;
 
 public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> {
 

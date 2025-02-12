@@ -1,7 +1,6 @@
 package com.example.demo.domain.member.service;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +23,6 @@ public class MemberCommandService {
   private final AuthTokensGenerator authTokensGenerator;
   private final RequestOAuthInfoService requestOAuthInfoService;
   private final JwtTokenProvider jwtTokenProvider;
-  private final RedisTemplate<String, String> redisTemplate;
 
   @Value("${jwt.refresh-token-validity}")
   private Long refreshTokenValidityMilliseconds;
