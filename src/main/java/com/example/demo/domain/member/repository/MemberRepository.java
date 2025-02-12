@@ -11,7 +11,7 @@ import io.lettuce.core.dynamic.annotation.Param;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-  Optional<Member> findByKakaoNickname(String kakaoNickname);
+  Optional<Member> findByKakaoId(Long kakaoId);
 
   Optional<Member> findById(Long id);
 

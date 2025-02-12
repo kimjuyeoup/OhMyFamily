@@ -1,7 +1,5 @@
 package com.example.demo.domain.member.service;
 
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -39,15 +37,19 @@ public class MemberCommandService {
 
   public Long findOrCreateMember(OAuthInfoResponse oAuthInfoResponse) {
     return memberRepository
-        .findByKakaoNickname(oAuthInfoResponse.getKakaoNickname())
+        .findByKakaoId(oAuthInfoResponse.getKakaoId())
         .map(Member::getId)
         .orElseGet(() -> newUser(oAuthInfoResponse));
   }
 
   private Long newUser(OAuthInfoResponse oAuthInfoResponse) {
-    Member member = Member.builder().kakaoNickname(oAuthInfoResponse.getKakaoNickname()).build();
-
-    return memberRepository.save(member).getId();
+    return memberRepository
+        .save(
+            Member.builder()
+                .kakaoId(oAuthInfoResponse.getKakaoId())
+                .kakaoNickname(oAuthInfoResponse.getKakaoNickname())
+                .build())
+        .getId();
   }
 
   public AuthTokens reissue(KakaoReissueParams params) {
@@ -56,25 +58,19 @@ public class MemberCommandService {
 
     Long memberId = jwtTokenProvider.parseRefreshToken(refreshToken);
 
-    if (!refreshToken.equals(redisTemplate.opsForValue().get(memberId.toString()))) {
-      throw new GlobalException(GlobalErrorCode.INVALID_TOKEN);
-    }
-
     Member member =
         memberRepository
             .findById(memberId)
             .orElseThrow(() -> new GlobalException(GlobalErrorCode.NOT_FOUND_MEMBER));
 
+    if (!refreshToken.equals(member.getRefreshToken())) {
+      throw new GlobalException(GlobalErrorCode.INVALID_TOKEN);
+    }
+
     String newAccessToken = jwtTokenProvider.generateAccessToken(member.getId());
     String newRefreshToken = jwtTokenProvider.generateRefreshToken(member.getId());
 
-    redisTemplate
-        .opsForValue()
-        .set(
-            member.getId().toString(),
-            newRefreshToken,
-            refreshTokenValidityMilliseconds,
-            TimeUnit.MILLISECONDS);
+    member.setRefreshToken(newRefreshToken);
 
     return AuthTokens.of(newAccessToken, newRefreshToken);
   }
