@@ -31,8 +31,7 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> 
   Optional<Long> findMemberByQuizid(@Param("quizid") int quizid);
 
   @Query(
-      value =
-          "SELECT q.answer FROM question q WHERE q.quizid = :quizid AND q.set_question_id = 11 LIMIT 1",
+      value = "SELECT q.answer FROM question q WHERE q.quizid = :quizid AND q.set_id = 11 LIMIT 1",
       nativeQuery = true)
   String findAnswerByQuizid11(@Param("quizid") int quizid);
 }
