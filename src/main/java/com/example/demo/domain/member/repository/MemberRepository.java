@@ -4,14 +4,13 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.demo.domain.member.entity.Member;
 
-import io.lettuce.core.dynamic.annotation.Param;
-
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-  Optional<Member> findByKakaoNickname(String kakaoNickname);
+  Optional<Member> findByKakaoId(Long kakaoId);
 
   Optional<Member> findById(Long id);
 

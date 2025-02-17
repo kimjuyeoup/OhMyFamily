@@ -3,14 +3,13 @@ package com.example.demo.global.jwt;
 import java.security.Key;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.global.exception.GlobalErrorCode;
 import com.example.demo.global.exception.GlobalException;
 import com.example.demo.global.exception.TokenException;
@@ -23,20 +22,20 @@ import io.jsonwebtoken.security.Keys;
 public class JwtTokenProvider {
 
   private final Key key;
-  private final RedisTemplate<String, String> redisTemplate;
   private final long accessTokenValidityMilliseconds;
   private final long refreshTokenValidityMilliseconds;
+  private final MemberRepository memberRepository;
 
   public JwtTokenProvider(
       @Value("${jwt.secret}") String secretKey,
-      RedisTemplate<String, String> redisTemplate,
       @Value("${jwt.access-token-validity}") final long accessTokenValidityMilliseconds,
-      @Value("${jwt.refresh-token-validity}") final long refreshTokenValidityMilliseconds) {
+      @Value("${jwt.refresh-token-validity}") final long refreshTokenValidityMilliseconds,
+      MemberRepository memberRepository) {
     byte[] keyBytes = Decoders.BASE64.decode(secretKey);
     this.key = Keys.hmacShaKeyFor(keyBytes);
-    this.redisTemplate = redisTemplate;
     this.accessTokenValidityMilliseconds = accessTokenValidityMilliseconds;
     this.refreshTokenValidityMilliseconds = refreshTokenValidityMilliseconds;
+    this.memberRepository = memberRepository;
   }
 
   private String generateToken(Long userId, long validityMilliseconds) {
@@ -67,19 +66,15 @@ public class JwtTokenProvider {
     UsernamePasswordAuthenticationToken authenticationToken =
         new UsernamePasswordAuthenticationToken(userId, null, null);
     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-    System.out.println(SecurityContextHolder.getContext().getAuthentication());
   }
 
   public String generateRefreshToken(Long userId) {
-    String refreshToken = generateToken(userId, refreshTokenValidityMilliseconds);
-    redisTemplate
-        .opsForValue()
-        .set(
-            userId.toString(),
-            refreshToken,
-            refreshTokenValidityMilliseconds,
-            TimeUnit.MILLISECONDS);
-    return refreshToken;
+
+    memberRepository
+        .findById(userId)
+        .orElseThrow(() -> new GlobalException(GlobalErrorCode.NOT_FOUND_MEMBER));
+
+    return generateToken(userId, refreshTokenValidityMilliseconds);
   }
 
   public String extractSubject(String accessToken) {

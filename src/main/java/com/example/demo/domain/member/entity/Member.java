@@ -2,10 +2,7 @@ package com.example.demo.domain.member.entity;
 
 import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
@@ -19,6 +16,13 @@ public class Member {
   @Column(name = "member_id")
   private Long id;
 
+  @Column(name = "kakao_id")
+  private Long kakaoId;
+
   @Column(name = "kakao_nickname")
   private String kakaoNickname;
+
+  @Setter
+  @Column(name = "refresh_token")
+  private String refreshToken;
 }

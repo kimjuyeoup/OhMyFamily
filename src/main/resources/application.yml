@@ -40,13 +40,6 @@ oauth:
       api: https://kapi.kakao.com
 
 ---
-spring:
-  data:
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-
----
 cloud:
   aws:
     s3:

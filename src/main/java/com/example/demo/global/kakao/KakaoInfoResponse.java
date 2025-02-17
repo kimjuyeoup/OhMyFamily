@@ -10,7 +10,9 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KakaoInfoResponse implements OAuthInfoResponse {
 
-  // ToDo - 비즈앱 전환 시 동의 항목 Member 요소 추가
+  @JsonProperty("id")
+  private Long kakaoId;
+
   @JsonProperty("kakao_account")
   private KakaoAccount kakaoAccount;
 
