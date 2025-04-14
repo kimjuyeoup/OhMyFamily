@@ -45,12 +45,27 @@ public class QuizCommandService {
   }
 
   public String getIcon(Long a) {
-    System.out.println(questionRepository.findAnswerByQuizid11(a.intValue()) + "a의 값 : " + a);
+    Long ChangeValue = 0L;
+    if (a >= 0 && a <= 20) {
+      ChangeValue = 20L;
+    } else if (a > 20 && a <= 40) {
+      ChangeValue = 40L;
+    } else if (a > 40 && a <= 60) {
+      ChangeValue = 60L;
+    } else if (a > 60 && a <= 80) {
+      ChangeValue = 80L;
+    } else if (a > 80 && a <= 90) {
+      ChangeValue = 90L;
+    } else if (a > 90 && a <= 100) {
+      ChangeValue = 100L;
+    }
+
     if (questionRepository.findAnswerByQuizid11(a.intValue()) != null) {
       String icon = questionRepository.findAnswerByQuizid11(a.intValue());
       return icon;
     } else {
-      String icon = cardRepository.findIconByScore(quizRepository.findScoreByQuizid(a.intValue()));
+      String icon =
+          cardRepository.findIconByScore(quizRepository.findScoreByQuizid(ChangeValue.intValue()));
       return icon;
     }
   }
