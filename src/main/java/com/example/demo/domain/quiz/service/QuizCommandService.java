@@ -45,6 +45,17 @@ public class QuizCommandService {
   }
 
   public String getIcon(Long a) {
+    getChange(a);
+    if (questionRepository.findAnswerByQuizid11(a.intValue()) != null) {
+      String icon = questionRepository.findAnswerByQuizid11(a.intValue());
+      return icon;
+    } else {
+      String icon = cardRepository.findIconByScore(quizRepository.findScoreByQuizid(a.intValue()));
+      return icon;
+    }
+  }
+
+  public Long getChange(Long a) {
     if (a >= 0 && a <= 20) {
       a = 20L;
     } else if (a > 20 && a <= 40) {
@@ -58,14 +69,6 @@ public class QuizCommandService {
     } else if (a > 90 && a <= 100) {
       a = 100L;
     }
-
-    if (questionRepository.findAnswerByQuizid11(a.intValue()) != null) {
-      String icon = questionRepository.findAnswerByQuizid11(a.intValue());
-      return icon;
-    } else {
-      String icon =
-          cardRepository.findIconByScore(quizRepository.findScoreByQuizid(a.intValue()));
-      return icon;
-    }
+    return a;
   }
 }
