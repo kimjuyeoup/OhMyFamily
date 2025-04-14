@@ -11,7 +11,7 @@ public enum SetQuestions {
   CONTENT7("{name}와\n 닮은 연예인은 누구인가요?", "{content}", "actor", "input", 10L),
   CONTENT8("{name}가 제일 좋아하는\n 나와의 기억은 무엇인가요?", "", "memory", "input", 10L),
   CONTENT9(
-      "{name}가\n 가장 이루고 싶은 소원은 무엇일까요?", "로또 당첨... 로또 당첨... 로또 당첨... 더보기", "wish", "input", 10L),
+      "{name}가\n 가장 이루고 싶은 소원은 무엇일까요?", "로또 당첨... 로또 당첨... 로또 당첨... 더보기.", "wish", "input", 10L),
   CONTENT10("{name}가\n 생각하는 현재 나의 모습은 어떨까요?", "", "think", "input", 10L),
   CONTENT11(
       "간직하고 있는 {name}의\n 사진이 있다면 보여주세요!",
