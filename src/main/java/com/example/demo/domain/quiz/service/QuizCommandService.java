@@ -45,12 +45,11 @@ public class QuizCommandService {
   }
 
   public String getIcon(Long a) {
-    getChange(a);
     if (questionRepository.findAnswerByQuizid11(a.intValue()) != null) {
       String icon = questionRepository.findAnswerByQuizid11(a.intValue());
       return icon;
     } else {
-      String icon = cardRepository.findIconByScore(a);
+      String icon = cardRepository.findIconByScore(getChange(a));
       return icon;
     }
   }
