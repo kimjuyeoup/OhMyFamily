@@ -50,7 +50,7 @@ public class QuizCommandService {
       String icon = questionRepository.findAnswerByQuizid11(a.intValue());
       return icon;
     } else {
-      String icon = cardRepository.findIconByScore(quizRepository.findScoreByQuizid(a.intValue()));
+      String icon = cardRepository.findIconByScore(a);
       return icon;
     }
   }
