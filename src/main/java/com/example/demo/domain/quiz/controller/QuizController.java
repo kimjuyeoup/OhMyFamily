@@ -51,9 +51,10 @@ public class QuizController {
         quizRepository.findByMember(member).stream()
             .map(
                 quiz -> {
-                  String value = quizCommandService.getIcon(quiz.getId());
+                  String value = quizCommandService.getIcon(quiz.getScore());
+                  Long Score = quizCommandService.getChange(quiz.getScore());
                   return new QuizDto(
-                      quiz.getId(), quiz.getCheck(), quiz.getNickname(), quiz.getScore(), value);
+                      quiz.getId(), quiz.getCheck(), quiz.getNickname(), Score, value);
                 })
             .collect(Collectors.toList());
     return BaseResponse.onSuccess(data);
