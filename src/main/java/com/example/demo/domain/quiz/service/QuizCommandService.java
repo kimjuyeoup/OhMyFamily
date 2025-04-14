@@ -45,18 +45,19 @@ public class QuizCommandService {
   }
 
   public String getIcon(Long a) {
+    Long ChangeValue = 0L;
     if (a >= 0 && a <= 20) {
-      a = 20L;
+      ChangeValue = 20L;
     } else if (a > 20 && a <= 40) {
-      a = 40L;
+      ChangeValue = 40L;
     } else if (a > 40 && a <= 60) {
-      a = 60L;
+      ChangeValue = 60L;
     } else if (a > 60 && a <= 80) {
-      a = 80L;
+      ChangeValue = 80L;
     } else if (a > 80 && a <= 90) {
-      a = 90L;
+      ChangeValue = 90L;
     } else if (a > 90 && a <= 100) {
-      a = 100L;
+      ChangeValue = 100L;
     }
 
     if (questionRepository.findAnswerByQuizid11(a.intValue()) != null) {
