@@ -16,6 +16,7 @@ import com.example.demo.domain.SetQuestion.dto.SetQuestionDto;
 import com.example.demo.domain.SetQuestion.entity.SetQuestion;
 import com.example.demo.domain.SetQuestion.repository.SetQuestionRepository;
 import com.example.demo.domain.member.repository.MemberRepository;
+import com.example.demo.domain.quiz.repository.QuizRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +28,7 @@ public class QuestionService {
   private final SetQuestionRepository setQuestionRepository;
   private final QuestionRepository questionRepository;
   private final MemberRepository memberRepository;
+  private final QuizRepository quizRepository;
 
   public List<SetQuestionDto> getQuestionByName(String name, String id) {
 
@@ -45,32 +47,36 @@ public class QuestionService {
   }
 
   public Map<String, Object> getAnswerByName(int quizid) {
-    List<QuestionEntity> questions = questionRepository.findAnswerByQuizid(quizid);
+    if (quizRepository.findNameByQuizid(quizid) == null) {
+      List<QuestionEntity> questions = questionRepository.findAnswerByQuizid(quizid);
 
-    List<AnswerResponse> answers =
-        questions.stream()
-            .filter(question -> question.getSetId() <= 10)
-            .map(
-                question -> {
-                  SetQuestion setQuestion = question.getSetQuestion();
-                  String title =
-                      setQuestion != null ? setQuestion.getTitle(question.getName()) : null;
-                  String icon = setQuestion != null ? setQuestion.getIcon() : null;
+      List<AnswerResponse> answers =
+          questions.stream()
+              .filter(question -> question.getSetId() <= 10)
+              .map(
+                  question -> {
+                    SetQuestion setQuestion = question.getSetQuestion();
+                    String title =
+                        setQuestion != null ? setQuestion.getTitle(question.getName()) : null;
+                    String icon = setQuestion != null ? setQuestion.getIcon() : null;
 
-                  return AnswerResponse.builder()
-                      .id(question.getSetId())
-                      .answer(question.getAnswer())
-                      .title(title)
-                      .icon(icon)
-                      .build();
-                })
-            .collect(Collectors.toList());
+                    return AnswerResponse.builder()
+                        .id(question.getSetId())
+                        .answer(question.getAnswer())
+                        .title(title)
+                        .icon(icon)
+                        .build();
+                  })
+              .collect(Collectors.toList());
 
-    Map<String, Object> result = new HashMap<>();
-    result.put("data", answers);
-    result.put("image", questionRepository.findAnswerByQuizid11(quizid));
+      Map<String, Object> result = new HashMap<>();
+      result.put("data", answers);
+      result.put("image", questionRepository.findAnswerByQuizid11(quizid));
 
-    return result;
+      return result;
+    } else {
+      throw new IllegalArgumentException("해당 퀴즈 ID(" + quizid + ")에 대한 점수가 이미 존재합니다.");
+    }
   }
 
   public InfoDto getInfo(int quizid) {
