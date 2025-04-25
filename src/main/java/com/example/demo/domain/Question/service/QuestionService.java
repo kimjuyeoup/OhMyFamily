@@ -15,6 +15,7 @@ import com.example.demo.domain.Question.repository.QuestionRepository;
 import com.example.demo.domain.SetQuestion.dto.SetQuestionDto;
 import com.example.demo.domain.SetQuestion.entity.SetQuestion;
 import com.example.demo.domain.SetQuestion.repository.SetQuestionRepository;
+import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.domain.quiz.repository.QuizRepository;
 
@@ -85,5 +86,13 @@ public class QuestionService {
     String kakao_nickname = memberRepository.findKakaoNicknameByMember(member);
 
     return new InfoDto(kakao_nickname, name);
+  }
+
+  public String getChangeByName(String name, int quizid) {
+    Long memberId = questionRepository.findMemberByQuizid(quizid).orElse(null);
+    Member member = memberRepository.findById(memberId).orElse(null);
+    member.ChangeKakaoNickname(name);
+    memberRepository.save(member);
+    return "Nickname Change";
   }
 }
