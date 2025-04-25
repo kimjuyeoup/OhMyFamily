@@ -30,7 +30,14 @@ public class MemberCommandService {
   public AuthTokens login(OAuthLoginParams params) {
     OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
     Long userId = findOrCreateMember(oAuthInfoResponse);
-    return authTokensGenerator.generate(userId);
+    AuthTokens authTokens = authTokensGenerator.generate(userId);
+    Member member =
+        memberRepository
+            .findById(userId)
+            .orElseThrow(() -> new GlobalException(GlobalErrorCode.NOT_FOUND_MEMBER));
+    member.setRefreshToken(authTokens.getRefreshToken());
+    memberRepository.save(member);
+    return authTokens;
   }
 
   public Long findOrCreateMember(OAuthInfoResponse oAuthInfoResponse) {
