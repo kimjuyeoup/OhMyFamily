@@ -1,5 +1,7 @@
 package com.example.demo.domain.SetQuestion.entity;
 
+import java.util.Map;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -50,7 +52,34 @@ public class SetQuestion {
   }
 
   public String getTitle(String name) {
-    return title.replace("{name}", name);
+    String result = title.replace("{name}", name);
+
+    char lastChar = name.charAt(name.length() - 1);
+    boolean hasJongseong = hasFinalConsonant(lastChar);
+
+    Map<String, String[]> particleMap =
+        Map.of(
+            "{a}", new String[] {"은", "는"},
+            "{b}", new String[] {"이", "가"},
+            "{c}", new String[] {"과", "와"});
+
+    for (Map.Entry<String, String[]> entry : particleMap.entrySet()) {
+      if (result.contains(entry.getKey())) {
+        String replacement = hasJongseong ? entry.getValue()[0] : entry.getValue()[1];
+        result = result.replace(entry.getKey(), replacement);
+      }
+    }
+
+    return result;
+  }
+
+  private boolean hasFinalConsonant(char c) {
+    if (c >= 0xAC00 && c <= 0xD7A3) {
+      int base = c - 0xAC00;
+      int jongseong = base % 28;
+      return jongseong != 0;
+    }
+    return false;
   }
 
   public String getContent(String name) {
