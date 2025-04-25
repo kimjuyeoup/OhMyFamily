@@ -91,7 +91,9 @@ public class QuestionService {
   public String getChangeByName(String name, int quizid) {
     Long memberId = questionRepository.findMemberByQuizid(quizid).orElse(null);
     Member member = memberRepository.findById(memberId).orElse(null);
-    member.ChangeKakaoNickname(name);
+    if (member != null) {
+      member.ChangeKakaoNickname(name);
+    }
     memberRepository.save(member);
     return "Nickname Change";
   }
