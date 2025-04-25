@@ -25,4 +25,8 @@ public class Member {
   @Setter
   @Column(name = "refresh_token")
   private String refreshToken;
+
+  public void ChangeKakaoNickname(String nickname) {
+    this.kakaoNickname = nickname;
+  }
 }

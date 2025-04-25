@@ -40,6 +40,11 @@ public class QuestionController {
     return BaseResponse.onSuccess(response);
   }
 
+  @GetMapping("/change")
+  public BaseResponse<String> getChangeByName(@RequestParam String name, int quizid) {
+    return BaseResponse.onSuccess(questionService.getChangeByName(name, quizid));
+  }
+
   @GetMapping("/user")
   public BaseResponse<InfoDto> getUserInfo(@RequestParam int quizid) {
     return BaseResponse.onSuccess(questionService.getInfo(quizid));
