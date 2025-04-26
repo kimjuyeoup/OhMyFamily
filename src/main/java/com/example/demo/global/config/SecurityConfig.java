@@ -52,7 +52,13 @@ public class SecurityConfig {
 
     http.authorizeHttpRequests(
         (authorize) ->
-            authorize.requestMatchers(allowedUrls).permitAll().anyRequest().authenticated());
+            authorize
+                .requestMatchers("/api/user")
+                .permitAll()
+                .requestMatchers(allowedUrls)
+                .permitAll()
+                .anyRequest()
+                .authenticated());
 
     http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterBefore(jwtAuthExceptionHandlingFilter, JwtRequestFilter.class);
