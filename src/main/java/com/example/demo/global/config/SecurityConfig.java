@@ -2,6 +2,8 @@ package com.example.demo.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -42,6 +44,8 @@ public class SecurityConfig {
 
     http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
+    http.cors(Customizer.withDefaults());
+
     http.sessionManagement(
         sessionManagement ->
             sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -55,6 +59,8 @@ public class SecurityConfig {
     http.authorizeHttpRequests(
         (authorize) ->
             authorize
+                .requestMatchers(HttpMethod.OPTIONS, "/**")
+                .permitAll()
                 .requestMatchers("/api/user")
                 .permitAll()
                 .requestMatchers(allowedUrls)
