@@ -2,6 +2,7 @@ package com.example.demo.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -27,7 +28,9 @@ public class SecurityConfig {
   private final JwtRequestFilter jwtRequestFilter;
   private final JwtAuthExceptionHandlingFilter jwtAuthExceptionHandlingFilter;
 
-  private final String[] allowedUrls = {"/h2-console/**", "/**", "/api/v1/**", "/api/**"};
+  private final String[] allowedUrls = {
+    "/h2-console/**", "/api/v1/member/kakao", "/api/v1/member/reissue", "/kakao/callback", "/health"
+  };
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -57,9 +60,7 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers(allowedUrls)
                 .permitAll()
-                .anyRequest()
-                .authenticated());
-
+      
     http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterBefore(jwtAuthExceptionHandlingFilter, JwtRequestFilter.class);
 

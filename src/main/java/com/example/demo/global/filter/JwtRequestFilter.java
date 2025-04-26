@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.example.demo.global.exception.GlobalErrorCode;
@@ -19,14 +20,19 @@ import com.example.demo.global.exception.GlobalException;
 import com.example.demo.global.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
   private final JwtTokenProvider jwtAuthProvider;
   private final UserDetailsService userDetailsService;
+  private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-  private final String[] excludedUrls = {"/api/v1/member/kakao", "/api/user", "/api/answer"};
+  private final String[] excludedUrls = {
+    "/api/v1/member/kakao", "/api/v1/member/reissue", "/kakao/callback", "/api/user", "/api/answer"
+  };
 
   @Override
   protected void doFilterInternal(
@@ -37,7 +43,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     // 검사 제외 URL인지 확인
     for (String excludedUrl : excludedUrls) {
-      if (requestUri.startsWith(excludedUrl)) {
+      if (antPathMatcher.match(excludedUrl, requestUri)) {
         filterChain.doFilter(request, response);
         return; // 검사 제외
       }

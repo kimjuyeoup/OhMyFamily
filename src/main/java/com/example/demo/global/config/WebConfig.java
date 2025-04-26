@@ -12,9 +12,24 @@ public class WebConfig implements WebMvcConfigurer {
     registry
         .addMapping("/api/**")
         .allowedOrigins(
-            "http://localhost:5173", "https://www.oh-my-family.com", "http://192.168.219.104:5173")
+            "http://localhost:5173",
+            "https://www.oh-my-family.com",
+            "http://192.168.219.104:5173",
+            "https://api.oh-my-family.com")
         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-        .allowedHeaders("*")
+        .allowedHeaders("Authorization", "Content-Type", "Accept")
+        .allowCredentials(true)
+        .maxAge(6000);
+
+    registry
+        .addMapping("/**")
+        .allowedOrigins(
+            "http://localhost:5173",
+            "https://www.oh-my-family.com",
+            "http://192.168.219.104:5173",
+            "https://api.oh-my-family.com")
+        .allowedMethods("OPTIONS")
+        .allowedHeaders("Authorization", "Content-Type", "Accept")
         .allowCredentials(true)
         .maxAge(6000);
   }
