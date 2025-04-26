@@ -61,7 +61,7 @@ public class SecurityConfig {
             authorize
                 .requestMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll()
-                .requestMatchers("/api/user")
+                .requestMatchers("/api/user", "/api/answer", "/api/score")
                 .permitAll()
                 .requestMatchers(allowedUrls)
                 .permitAll()
