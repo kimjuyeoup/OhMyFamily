@@ -27,7 +27,7 @@ public class CardCommandService {
     Card card = new Card();
     card.setContent("사실 당신은 인간이 된 꿈을 꾸고 있는\n 감자인 것입니다.\n 감자가 사람이 되기 위해서는 쑥과 마늘을...더보기");
     card.setId(1L);
-    card.setIcon("https://oh-my-family-buckets.s3.ap-northeast-2.amazonaws.com/potato.PNG");
+    card.setIcon("https://oh-my-family-buckets.s3.ap-northeast-2.amazonaws.com/20-3.png");
     card.setSubtitle("저는 말하는 감자라구요. 아시겠어요?");
     card.setScore(20L);
     card.setTitle("말하는 감자");
