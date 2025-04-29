@@ -12,6 +12,9 @@ import com.example.demo.domain.Question.dto.SubmitDto;
 import com.example.demo.domain.Question.service.QuestionService;
 import com.example.demo.domain.Question.service.QuestionServices;
 import com.example.demo.domain.SetQuestion.dto.SetQuestionDto;
+import com.example.demo.domain.SetQuestion.entity.SetQuestion;
+import com.example.demo.domain.SetQuestion.entity.SetQuestions;
+import com.example.demo.domain.SetQuestion.repository.SetQuestionRepository;
 import com.example.demo.domain.member.service.MemberCommandService;
 import com.example.demo.domain.member.service.MemberQueryService;
 import com.example.demo.global.exception.BaseResponse;
@@ -28,9 +31,20 @@ public class QuestionController {
   private final JwtTokenProvider jwtTokenProvider;
   private final MemberCommandService memberCommandService;
   private final MemberQueryService memberQueryService;
+  private final SetQuestionRepository setQuestionRepository;
 
   @GetMapping("/question")
   public BaseResponse<List<SetQuestionDto>> getAllQuestions(@RequestParam String name, String id) {
+    setQuestionRepository.deleteAll();
+    for (SetQuestions setQuestions : SetQuestions.values()) {
+      SetQuestion setQuestion = new SetQuestion();
+      setQuestion.setContent(setQuestions.getContent());
+      setQuestion.setTitle(setQuestions.getTitle());
+      setQuestion.setIcon(setQuestions.getIcon());
+      setQuestion.setScore(setQuestions.getScore());
+      setQuestion.setType(setQuestions.getType());
+      setQuestionRepository.save(setQuestion);
+    }
     return BaseResponse.onSuccess(questionService.getQuestionByName(name, id));
   }
 
