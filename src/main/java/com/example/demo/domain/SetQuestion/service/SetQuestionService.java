@@ -16,21 +16,12 @@ public class SetQuestionService {
 
   @PostConstruct
   public void init() {
+    try {
+      long count = setQuestionRepository.count();
 
-    if (setQuestionRepository.count() == 0) {
-      for (SetQuestions setQuestions : SetQuestions.values()) {
-        SetQuestion setQuestion = new SetQuestion();
-
-        setQuestion.setContent(setQuestions.getContent());
-        setQuestion.setTitle(setQuestions.getTitle());
-        setQuestion.setIcon(setQuestions.getIcon());
-        setQuestion.setScore(setQuestions.getScore());
-        setQuestion.setType(setQuestions.getType());
-
-        setQuestionRepository.save(setQuestion);
+      if (count > 0) {
+        setQuestionRepository.deleteAll();
       }
-    } else {
-      setQuestionRepository.deleteAll();
       for (SetQuestions setQuestions : SetQuestions.values()) {
         SetQuestion setQuestion = new SetQuestion();
         setQuestion.setContent(setQuestions.getContent());
@@ -41,6 +32,10 @@ public class SetQuestionService {
 
         setQuestionRepository.save(setQuestion);
       }
+
+    } catch (Exception e) {
+      System.err.println("❌ SetQuestion 초기화 중 에러 발생: " + e.getMessage());
+      e.printStackTrace();
     }
   }
 }
