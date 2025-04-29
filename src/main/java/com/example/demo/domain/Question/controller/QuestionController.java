@@ -9,7 +9,6 @@ import com.example.demo.domain.Question.dto.InfoDto;
 import com.example.demo.domain.Question.dto.QuizDto;
 import com.example.demo.domain.Question.dto.ScoreDto;
 import com.example.demo.domain.Question.dto.SubmitDto;
-import com.example.demo.domain.Question.dto.request.ChangeRequest;
 import com.example.demo.domain.Question.service.QuestionService;
 import com.example.demo.domain.Question.service.QuestionServices;
 import com.example.demo.domain.SetQuestion.dto.SetQuestionDto;
@@ -44,12 +43,6 @@ public class QuestionController {
   @GetMapping("/user")
   public BaseResponse<InfoDto> getUserInfo(@RequestParam int quizid) {
     return BaseResponse.onSuccess(questionService.getInfo(quizid));
-  }
-
-  @PostMapping("/change")
-  public BaseResponse<String> getChangeByName(@RequestBody ChangeRequest request) {
-    return BaseResponse.onSuccess(
-        questionServices.getChangeByName(request.getName(), request.getQuizid()));
   }
 
   @PostMapping("/score")
