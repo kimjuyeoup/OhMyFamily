@@ -1,4 +1,4 @@
-package com.example.demo.domain.Question.dto.request;
+package com.example.demo.domain.Qname.dto;
 
 public class ChangeRequest {
   private String name;

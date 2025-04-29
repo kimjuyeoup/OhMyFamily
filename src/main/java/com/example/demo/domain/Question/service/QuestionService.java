@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.Qname.repository.QnameRepository;
 import com.example.demo.domain.Question.dto.InfoDto;
 import com.example.demo.domain.Question.dto.response.AnswerResponse;
 import com.example.demo.domain.Question.entity.QuestionEntity;
@@ -29,6 +30,7 @@ public class QuestionService {
   private final QuestionRepository questionRepository;
   private final MemberRepository memberRepository;
   private final QuizRepository quizRepository;
+  private final QnameRepository qnameRepository;
 
   public List<SetQuestionDto> getQuestionByName(String name, String id) {
 
@@ -82,8 +84,12 @@ public class QuestionService {
   public InfoDto getInfo(int quizid) {
     String name = questionRepository.findNameByQuizid(quizid).orElse(null);
     Long member = questionRepository.findMemberByQuizid(quizid).orElse(null);
-    String kakao_nickname = memberRepository.findKakaoNicknameByMember(member);
-
-    return new InfoDto(kakao_nickname, name);
+    if (qnameRepository.findNameByQuizid(quizid) == null) {
+      String kakao_nickname = memberRepository.findKakaoNicknameByMember(member);
+      return new InfoDto(kakao_nickname, name);
+    } else {
+      String kakao_nickname = qnameRepository.findNameByQuizid(quizid);
+      return new InfoDto(kakao_nickname, name);
+    }
   }
 }
