@@ -17,16 +17,30 @@ public class SetQuestionService {
   @PostConstruct
   public void init() {
 
-    setQuestionRepository.deleteAll();
-    for (SetQuestions setQuestions : SetQuestions.values()) {
-      SetQuestion setQuestion = new SetQuestion();
-      setQuestion.setContent(setQuestions.getContent());
-      setQuestion.setTitle(setQuestions.getTitle());
-      setQuestion.setIcon(setQuestions.getIcon());
-      setQuestion.setScore(setQuestions.getScore());
-      setQuestion.setType(setQuestions.getType());
+    if (setQuestionRepository.count() == 0) {
+      for (SetQuestions setQuestions : SetQuestions.values()) {
+        SetQuestion setQuestion = new SetQuestion();
 
-      setQuestionRepository.save(setQuestion);
+        setQuestion.setContent(setQuestions.getContent());
+        setQuestion.setTitle(setQuestions.getTitle());
+        setQuestion.setIcon(setQuestions.getIcon());
+        setQuestion.setScore(setQuestions.getScore());
+        setQuestion.setType(setQuestions.getType());
+
+        setQuestionRepository.save(setQuestion);
+      }
+    } else {
+      setQuestionRepository.deleteAll();
+      for (SetQuestions setQuestions : SetQuestions.values()) {
+        SetQuestion setQuestion = new SetQuestion();
+        setQuestion.setContent(setQuestions.getContent());
+        setQuestion.setTitle(setQuestions.getTitle());
+        setQuestion.setIcon(setQuestions.getIcon());
+        setQuestion.setScore(setQuestions.getScore());
+        setQuestion.setType(setQuestions.getType());
+
+        setQuestionRepository.save(setQuestion);
+      }
     }
   }
 }
