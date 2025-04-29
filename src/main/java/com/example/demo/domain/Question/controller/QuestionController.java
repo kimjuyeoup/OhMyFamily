@@ -49,7 +49,7 @@ public class QuestionController {
   @PostMapping("/change")
   public BaseResponse<String> getChangeByName(@RequestBody ChangeRequest request) {
     return BaseResponse.onSuccess(
-        questionService.getChangeByName(request.getName(), request.getQuizid()));
+        questionServices.getChangeByName(request.getName(), request.getQuizid()));
   }
 
   @PostMapping("/score")

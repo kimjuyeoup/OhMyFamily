@@ -106,4 +106,14 @@ public class QuestionServices {
 
     return new QuizDto((long) number);
   }
+
+  public String getChangeByName(String name, int quizid) {
+    Long memberId = questionRepository.findMemberByQuizid(quizid).orElse(null);
+    Member member = memberRepository.findById(memberId).orElse(null);
+    if (member != null) {
+      member.ChangeKakaoNickname(name);
+    }
+    memberRepository.save(member);
+    return "Nickname Change";
+  }
 }
