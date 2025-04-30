@@ -56,3 +56,7 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 10MB
+
+---
+openai:
+  api-key: ${OPENAI_API_KEY}
