@@ -12,7 +12,10 @@ public enum GlobalErrorCode {
   AUTHENTICATION_REQUIRED(HttpStatus.UNAUTHORIZED, "u-002", "인증이 필요합니다."),
   NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "u-003", "회원을 찾을 수 없습니다."),
   TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "u-004", "토큰의 유효기간이 지났습니다."),
-  INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "u-005", "잘못된 토큰입니다.");
+  INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "u-005", "잘못된 토큰입니다."),
+  NOT_FOUND_QUIZ(HttpStatus.NOT_FOUND, "u-006", "퀴즈가 존재하지 않습니다."),
+  NOT_MARKED_QUIZ(HttpStatus.BAD_REQUEST, "u-007", "채점되지 않았습니다."),
+  NOT_FOUND_SET_QUESTION(HttpStatus.NOT_FOUND, "u-008", "채");
 
   private final HttpStatus httpStatus;
   private final String divisionCode;
