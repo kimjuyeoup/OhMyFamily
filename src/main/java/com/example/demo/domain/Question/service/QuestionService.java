@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.Qname.repository.QnameRepository;
 import com.example.demo.domain.Question.dto.InfoDto;
 import com.example.demo.domain.Question.dto.response.AnswerResponse;
 import com.example.demo.domain.Question.entity.QuestionEntity;
@@ -16,6 +15,7 @@ import com.example.demo.domain.Question.repository.QuestionRepository;
 import com.example.demo.domain.SetQuestion.dto.SetQuestionDto;
 import com.example.demo.domain.SetQuestion.entity.SetQuestion;
 import com.example.demo.domain.SetQuestion.repository.SetQuestionRepository;
+import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.domain.quiz.repository.QuizRepository;
 
@@ -30,7 +30,6 @@ public class QuestionService {
   private final QuestionRepository questionRepository;
   private final MemberRepository memberRepository;
   private final QuizRepository quizRepository;
-  private final QnameRepository qnameRepository;
 
   public List<SetQuestionDto> getQuestionByName(String name, String id) {
 
@@ -84,12 +83,18 @@ public class QuestionService {
   public InfoDto getInfo(int quizid) {
     String name = questionRepository.findNameByQuizid(quizid).orElse(null);
     Long member = questionRepository.findMemberByQuizid(quizid).orElse(null);
-    if (qnameRepository.findNameByQuizid(quizid) == null) {
-      String kakao_nickname = memberRepository.findKakaoNicknameByMember(member);
-      return new InfoDto(kakao_nickname, name);
-    } else {
-      String kakao_nickname = qnameRepository.findNameByQuizid(quizid);
-      return new InfoDto(kakao_nickname, name);
+    String kakao_nickname = memberRepository.findKakaoNicknameByMember(member);
+
+    return new InfoDto(kakao_nickname, name);
+  }
+
+  public String getChangeByName(String name, int quizid) {
+    Long memberId = questionRepository.findMemberByQuizid(quizid).orElse(null);
+    Member member = memberRepository.findById(memberId).orElse(null);
+    if (member != null) {
+      member.ChangeKakaoNickname(name);
     }
+    memberRepository.save(member);
+    return "Nickname Change";
   }
 }

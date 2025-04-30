@@ -63,13 +63,12 @@ public class QuizController {
 
   @GetMapping("/check/answer/{quizId}")
   public BaseResponse<List<CheckedAnswerResponseDto>> getCheckedQuestion(
-      @RequestHeader("Authorization") String accessToken, @PathVariable Long quizId) {
+      @PathVariable Long quizId) {
     return BaseResponse.onSuccess(quizCommandService.getCheckedQuestion(quizId));
   }
 
   @GetMapping("/check/{quizId}")
-  public BaseResponse<Boolean> getIsChecked(
-      @RequestHeader("Authorization") String accessToken, @PathVariable Long quizId) {
+  public BaseResponse<Boolean> getIsChecked(@PathVariable Long quizId) {
     return BaseResponse.onSuccess(quizCommandService.getIsChecked(quizId));
   }
 }
