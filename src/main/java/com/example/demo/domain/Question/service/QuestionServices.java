@@ -55,14 +55,21 @@ public class QuestionServices {
 
     List<SetQuestion> setQuestions = setQuestionRepository.findAllById(setIds);
     Long totalScore = setQuestions.stream().mapToLong(SetQuestion::getScore).sum();
-    Quiz quiz =
-        Quiz.builder()
-            .nickname(questions.get(0).getName())
-            .score(totalScore)
-            .check(false)
-            .id((long) scoreDto.getQuizid())
-            .member(questions.get(0).getMember())
-            .build();
+
+    Quiz quiz = quizRepository.findById((long) scoreDto.getQuizid()).orElse(null);
+
+    if (quiz != null) {
+      quiz.setScore(totalScore);
+    } else {
+      quiz =
+          Quiz.builder()
+              .nickname(questions.get(0).getName())
+              .score(totalScore)
+              .check(false)
+              .id((long) scoreDto.getQuizid())
+              .member(questions.get(0).getMember())
+              .build();
+    }
 
     quizRepository.save(quiz);
     return new ScoreDto(totalScore, scoreDto.getResult(), scoreDto.getQuizid());
@@ -102,6 +109,16 @@ public class QuestionServices {
     }
 
     questionRepository.saveAll(questions);
+    Quiz quiz =
+        Quiz.builder()
+            .id((long) number)
+            .nickname(submitDto.getName())
+            .score(null)
+            .check(false)
+            .member(member)
+            .build();
+
+    quizRepository.save(quiz);
     submitDto.setQuizid(number);
 
     return new QuizDto((long) number);

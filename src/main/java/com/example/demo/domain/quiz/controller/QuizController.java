@@ -17,7 +17,6 @@ import com.example.demo.domain.quiz.service.QuizCommandService;
 import com.example.demo.global.exception.BaseResponse;
 import com.example.demo.global.exception.GlobalErrorCode;
 import com.example.demo.global.exception.GlobalException;
-import com.example.demo.global.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 public class QuizController {
 
   private final QuizRepository quizRepository;
-  private final JwtTokenProvider jwtTokenProvider;
   private final MemberRepository memberRepository;
   private final QuizCommandService quizCommandService;
   private final MemberQueryService memberQueryService;
@@ -50,6 +48,7 @@ public class QuizController {
             .orElseThrow(() -> new GlobalException(GlobalErrorCode.NOT_FOUND_MEMBER));
     List<QuizDto> data =
         quizRepository.findByMember(member).stream()
+            .filter(quiz -> quiz.getScore() != null)
             .map(
                 quiz -> {
                   String value = quizCommandService.getIcon(quiz.getScore());
