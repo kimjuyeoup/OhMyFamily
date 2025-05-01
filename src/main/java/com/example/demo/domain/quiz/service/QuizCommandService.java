@@ -100,7 +100,7 @@ public class QuizCommandService {
                   return new CheckedAnswerResponseDto(
                       setQuestion.getContent(),
                       setQuestion.getIcon(),
-                      setQuestion.getTitle(),
+                      setQuestion.getTitle(question.getName()),
                       setQuestion.getType(),
                       question.getAnswer(),
                       question.getName(),
