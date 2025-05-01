@@ -3,6 +3,7 @@ package com.example.demo.domain.Question.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -50,7 +51,7 @@ public class QuestionService {
   }
 
   public Map<String, Object> getAnswerByName(int quizid) {
-    Quiz quiz = quizRepository.findByQuizid(quizid);
+    Quiz quiz = quizRepository.findById(quizid);
     if (quiz != null && quiz.getScore() != null) {
       throw new IllegalArgumentException("해당 퀴즈 ID(" + quizid + ")에 대한 점수가 이미 존재합니다.");
     }
@@ -86,12 +87,13 @@ public class QuestionService {
   public InfoDto getInfo(int quizid) {
     String name = questionRepository.findNameByQuizid(quizid).orElse(null);
     Long member = questionRepository.findMemberByQuizid(quizid).orElse(null);
-    if (qnameRepository.findNameByQuizid(quizid) == null) {
-      String kakao_nickname = memberRepository.findKakaoNicknameByMember(member);
-      return new InfoDto(kakao_nickname, name);
+    Optional<String> qnameOptional = qnameRepository.findNameByQuizid(quizid);
+    String kakao_nickname;
+    if (qnameOptional.isEmpty()) {
+      kakao_nickname = (member != null) ? memberRepository.findKakaoNicknameByMember(member) : null;
     } else {
-      String kakao_nickname = qnameRepository.findNameByQuizid(quizid);
-      return new InfoDto(kakao_nickname, name);
+      kakao_nickname = qnameOptional.get();
     }
+    return new InfoDto(kakao_nickname, name);
   }
 }
