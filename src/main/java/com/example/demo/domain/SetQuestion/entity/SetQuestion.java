@@ -55,25 +55,7 @@ public class SetQuestion {
   }
 
   public String getTitle(String name) {
-    String result = title.replace("{name}", name);
-
-    char lastChar = name.charAt(name.length() - 1);
-    boolean hasJongseong = hasFinalConsonant(lastChar);
-
-    Map<String, String[]> particleMap =
-        Map.of(
-            "{a}", new String[] {"은", "는"},
-            "{b}", new String[] {"이", "가"},
-            "{c}", new String[] {"과", "와"});
-
-    for (Map.Entry<String, String[]> entry : particleMap.entrySet()) {
-      if (result.contains(entry.getKey())) {
-        String replacement = hasJongseong ? entry.getValue()[0] : entry.getValue()[1];
-        result = result.replace(entry.getKey(), replacement);
-      }
-    }
-
-    return result;
+    return formatWithParticles(title, name);
   }
 
   private boolean hasFinalConsonant(char c) {
@@ -118,7 +100,7 @@ public class SetQuestion {
           formattedContent = "김태희, 송혜교, 손예진, 고수, 원빈, 정우성 ...더보기.";
         }
       } else {
-        formattedContent = content != null ? content.replace("{name}", name) : null;
+        formattedContent = content != null ? formatWithParticles(content, name) : null;
       }
 
       String[] contentsArray =
@@ -135,7 +117,32 @@ public class SetQuestion {
           return "김태희, 송혜교, 손예진, 고수, 원빈, 정우성 ...더보기.";
         }
       }
-      return content != null ? content.replace("{name}", name) : name;
+      return content != null ? formatWithParticles(content, name) : name;
     }
+  }
+
+  private String formatWithParticles(String text, String name) {
+    if (text == null) return null;
+
+    String result = text.replace("{name}", name);
+
+    char lastChar = name.charAt(name.length() - 1);
+    boolean hasJongseong = hasFinalConsonant(lastChar);
+
+    Map<String, String[]> particleMap =
+        Map.of(
+            "{a}", new String[] {"은", "는"},
+            "{b}", new String[] {"이", "가"},
+            "{c}", new String[] {"과", "와"} // 접속 조사
+            );
+
+    for (Map.Entry<String, String[]> entry : particleMap.entrySet()) {
+      if (result.contains(entry.getKey())) {
+        String replacement = hasJongseong ? entry.getValue()[0] : entry.getValue()[1];
+        result = result.replace(entry.getKey(), replacement);
+      }
+    }
+
+    return result;
   }
 }
