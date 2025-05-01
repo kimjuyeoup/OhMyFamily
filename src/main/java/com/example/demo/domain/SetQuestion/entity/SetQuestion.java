@@ -4,7 +4,10 @@ import java.util.Map;
 
 import jakarta.persistence.*;
 
+import lombok.Getter;
+
 @Entity
+@Getter
 public class SetQuestion {
 
   @Id

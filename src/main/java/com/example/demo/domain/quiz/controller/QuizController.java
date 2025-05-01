@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.domain.Question.dto.response.CheckedAnswerResponseDto;
 import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.domain.member.service.MemberQueryService;
@@ -57,5 +58,16 @@ public class QuizController {
                 })
             .collect(Collectors.toList());
     return BaseResponse.onSuccess(data);
+  }
+
+  @GetMapping("/check/answer/{quizId}")
+  public BaseResponse<List<CheckedAnswerResponseDto>> getCheckedQuestion(
+      @PathVariable Long quizId) {
+    return BaseResponse.onSuccess(quizCommandService.getCheckedQuestion(quizId));
+  }
+
+  @GetMapping("/check/{quizId}")
+  public BaseResponse<Boolean> getIsChecked(@PathVariable Long quizId) {
+    return BaseResponse.onSuccess(quizCommandService.getIsChecked(quizId));
   }
 }

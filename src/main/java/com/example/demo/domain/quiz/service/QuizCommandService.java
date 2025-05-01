@@ -1,9 +1,14 @@
 package com.example.demo.domain.quiz.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.Question.dto.response.CheckedAnswerResponseDto;
 import com.example.demo.domain.Question.repository.QuestionRepository;
+import com.example.demo.domain.SetQuestion.entity.SetQuestion;
+import com.example.demo.domain.SetQuestion.repository.SetQuestionRepository;
 import com.example.demo.domain.card.repository.CardRepository;
 import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.repository.MemberRepository;
@@ -28,6 +33,7 @@ public class QuizCommandService {
   private final MemberRepository memberRepository;
   private final QuestionRepository questionRepository;
   private final CardRepository cardRepository;
+  private final SetQuestionRepository setQuestionRepository;
 
   public SetQuizNicknameResponse setQuizNickname(
       String accessToken, SetQuizNicknameRequest request) {
@@ -69,5 +75,47 @@ public class QuizCommandService {
       a = 100L;
     }
     return a;
+  }
+
+  public List<CheckedAnswerResponseDto> getCheckedQuestion(Long questId) {
+    Quiz quiz =
+        quizRepository
+            .findById(questId)
+            .orElseThrow(() -> new GlobalException(GlobalErrorCode.NOT_FOUND_QUIZ));
+
+    if (!quiz.getCheck()) {
+      throw new GlobalException(GlobalErrorCode.NOT_MARKED_QUIZ);
+    }
+
+    List<CheckedAnswerResponseDto> checkedAnswerResponseDtoList =
+        questionRepository.findAnswerByQuizid(questId.intValue()).stream()
+            .map(
+                question -> {
+                  SetQuestion setQuestion =
+                      setQuestionRepository
+                          .findById(question.getSetId())
+                          .orElseThrow(
+                              () -> new GlobalException(GlobalErrorCode.NOT_FOUND_SET_QUESTION));
+
+                  return new CheckedAnswerResponseDto(
+                      setQuestion.getContent(),
+                      setQuestion.getIcon(),
+                      setQuestion.getTitle(question.getName()),
+                      setQuestion.getType(),
+                      question.getAnswer(),
+                      question.getName(),
+                      question.getIsAnswer());
+                })
+            .toList();
+
+    return checkedAnswerResponseDtoList;
+  }
+
+  public Boolean getIsChecked(Long quizId) {
+    Quiz quiz =
+        quizRepository
+            .findById(quizId)
+            .orElseThrow(() -> new GlobalException(GlobalErrorCode.NOT_FOUND_QUIZ));
+    return quiz.getCheck();
   }
 }

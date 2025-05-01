@@ -15,7 +15,8 @@ public class WebConfig implements WebMvcConfigurer {
             "http://localhost:5173",
             "https://www.oh-my-family.com",
             "http://192.168.219.104:5173",
-            "https://api.oh-my-family.com")
+            "https://api.oh-my-family.com",
+            "http://192.168.219.128/")
         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
         .allowedHeaders("Authorization", "Content-Type", "Accept")
         .allowCredentials(true)
@@ -27,7 +28,8 @@ public class WebConfig implements WebMvcConfigurer {
             "http://localhost:5173",
             "https://www.oh-my-family.com",
             "http://192.168.219.104:5173",
-            "https://api.oh-my-family.com")
+            "https://api.oh-my-family.com",
+            "http://192.168.219.128/")
         .allowedMethods("OPTIONS")
         .allowedHeaders("Authorization", "Content-Type", "Accept")
         .allowCredentials(true)

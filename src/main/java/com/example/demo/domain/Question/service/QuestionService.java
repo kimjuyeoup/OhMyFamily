@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.Qname.repository.QnameRepository;
 import com.example.demo.domain.Question.dto.InfoDto;
 import com.example.demo.domain.Question.dto.response.AnswerResponse;
 import com.example.demo.domain.Question.entity.QuestionEntity;
@@ -17,6 +16,7 @@ import com.example.demo.domain.Question.repository.QuestionRepository;
 import com.example.demo.domain.SetQuestion.dto.SetQuestionDto;
 import com.example.demo.domain.SetQuestion.entity.SetQuestion;
 import com.example.demo.domain.SetQuestion.repository.SetQuestionRepository;
+import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.domain.quiz.entity.Quiz;
 import com.example.demo.domain.quiz.repository.QuizRepository;
@@ -32,7 +32,6 @@ public class QuestionService {
   private final QuestionRepository questionRepository;
   private final MemberRepository memberRepository;
   private final QuizRepository quizRepository;
-  private final QnameRepository qnameRepository;
 
   public List<SetQuestionDto> getQuestionByName(String name, String id) {
 
