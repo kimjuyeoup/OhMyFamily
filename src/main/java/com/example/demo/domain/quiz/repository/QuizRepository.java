@@ -19,6 +19,8 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
   @Query("SELECT q.nickname FROM Quiz q WHERE q.id = :quizid")
   String findNameByQuizid(@Param("quizid") Integer quizid);
 
+  Quiz findByQuizid(int quizid);
+
   @Modifying
   @Query("UPDATE Quiz q SET q.check = true WHERE q.id = :quizid")
   int updateCheck(@Param("quizid") Integer quizid);
