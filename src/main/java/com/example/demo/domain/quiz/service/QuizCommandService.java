@@ -116,6 +116,6 @@ public class QuizCommandService {
         quizRepository
             .findById(quizId)
             .orElseThrow(() -> new GlobalException(GlobalErrorCode.NOT_FOUND_QUIZ));
-    return quiz.getCheck();
+    return quiz.getScore() != null;
   }
 }
