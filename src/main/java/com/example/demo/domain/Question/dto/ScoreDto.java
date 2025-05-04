@@ -5,9 +5,9 @@ import java.util.List;
 public class ScoreDto {
   private List<ResultDto> result;
   private Long score;
-  private int quizid;
+  private String quizid;
 
-  public ScoreDto(Long score, List<ResultDto> result, int quizid) {
+  public ScoreDto(Long score, List<ResultDto> result, String quizid) {
     this.score = score;
     this.result = result;
     this.quizid = quizid;
@@ -29,11 +29,11 @@ public class ScoreDto {
     this.score = score;
   }
 
-  public int getQuizid() {
+  public String getQuizid() {
     return quizid;
   }
 
-  public void setQuizid(int quizid) {
+  public void setQuizid(String quizid) {
     this.quizid = quizid;
   }
 }

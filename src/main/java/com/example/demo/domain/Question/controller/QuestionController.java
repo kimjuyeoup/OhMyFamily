@@ -14,6 +14,7 @@ import com.example.demo.domain.Question.service.QuestionServices;
 import com.example.demo.domain.SetQuestion.dto.SetQuestionDto;
 import com.example.demo.domain.member.service.MemberCommandService;
 import com.example.demo.domain.member.service.MemberQueryService;
+import com.example.demo.global.encrypt.EncryptService;
 import com.example.demo.global.exception.BaseResponse;
 import com.example.demo.global.jwt.JwtTokenProvider;
 
@@ -27,6 +28,7 @@ public class QuestionController {
   private final QuestionServices questionServices;
   private final JwtTokenProvider jwtTokenProvider;
   private final MemberCommandService memberCommandService;
+  private final EncryptService encryptService;
   private final MemberQueryService memberQueryService;
 
   @GetMapping("/question")
@@ -35,25 +37,29 @@ public class QuestionController {
   }
 
   @GetMapping("/answer")
-  public BaseResponse<Map<String, Object>> getAnswerByName(@RequestParam int quizid) {
-    Map<String, Object> response = questionService.getAnswerByName(quizid);
+  public BaseResponse<Map<String, Object>> getAnswerByName(@RequestParam String quizid)
+      throws Exception {
+    Map<String, Object> response =
+        questionService.getAnswerByName(encryptService.decrypt(quizid).intValue());
     return BaseResponse.onSuccess(response);
   }
 
   @GetMapping("/user")
-  public BaseResponse<InfoDto> getUserInfo(@RequestParam int quizid) {
-    return BaseResponse.onSuccess(questionService.getInfo(quizid));
+  public BaseResponse<InfoDto> getUserInfo(@RequestParam String quizid) throws Exception {
+    return BaseResponse.onSuccess(
+        questionService.getInfo(encryptService.decrypt(quizid).intValue()));
   }
 
   @PostMapping("/score")
-  public BaseResponse<ScoreDto> updateScore(@RequestBody ScoreDto request) {
+  public BaseResponse<ScoreDto> updateScore(@RequestBody ScoreDto request) throws Exception {
     ScoreDto updatedScore = questionServices.updateScoreByNickname(request);
     return BaseResponse.onSuccess(updatedScore);
   }
 
   @PostMapping("/submit")
   public BaseResponse<QuizDto> submitQuestion(
-      @RequestBody SubmitDto request, @RequestHeader("Authorization") String accessToken) {
+      @RequestBody SubmitDto request, @RequestHeader("Authorization") String accessToken)
+      throws Exception {
     Long memberid = memberQueryService.getMemberId(accessToken);
     QuizDto quizDto = questionServices.updateSubmitByNickname(request, memberid);
     return BaseResponse.onSuccess(quizDto);

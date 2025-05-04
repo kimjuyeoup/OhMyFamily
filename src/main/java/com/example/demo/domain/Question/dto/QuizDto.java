@@ -1,17 +1,17 @@
 package com.example.demo.domain.Question.dto;
 
 public class QuizDto {
-  private Long quizid;
+  private String quizid;
 
-  public QuizDto(Long quizid) {
+  public QuizDto(String quizid) {
     this.quizid = quizid;
   }
 
-  public Long getQuizid() {
+  public String getQuizid() {
     return quizid;
   }
 
-  public void setQuizid(Long quizid) {
+  public void setQuizid(String quizid) {
     this.quizid = quizid;
   }
 }

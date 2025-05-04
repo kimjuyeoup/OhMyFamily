@@ -17,6 +17,7 @@ import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.domain.quiz.entity.Quiz;
 import com.example.demo.domain.quiz.repository.QuizRepository;
+import com.example.demo.global.encrypt.EncryptService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,10 +30,13 @@ public class QuestionServices {
   private final QuizRepository quizRepository;
   private final SetQuestionRepository setQuestionRepository;
   private final MemberRepository memberRepository;
+  private final EncryptService encryptService;
 
-  public ScoreDto updateScoreByNickname(ScoreDto scoreDto) {
+  public ScoreDto updateScoreByNickname(ScoreDto scoreDto) throws Exception {
 
-    List<QuestionEntity> questions = questionRepository.findAnswerByQuizid(scoreDto.getQuizid());
+    List<QuestionEntity> questions =
+        questionRepository.findAnswerByQuizid(
+            encryptService.decrypt(scoreDto.getQuizid()).intValue());
     if (questions.isEmpty()) {
       throw new IllegalArgumentException("Questions not found for user");
     }
@@ -56,7 +60,7 @@ public class QuestionServices {
     List<SetQuestion> setQuestions = setQuestionRepository.findAllById(setIds);
     Long totalScore = setQuestions.stream().mapToLong(SetQuestion::getScore).sum();
 
-    Quiz quiz = quizRepository.findById((long) scoreDto.getQuizid()).orElse(null);
+    Quiz quiz = quizRepository.findById(encryptService.decrypt(scoreDto.getQuizid())).orElse(null);
 
     if (quiz != null) {
       quiz.setScore(totalScore);
@@ -66,7 +70,7 @@ public class QuestionServices {
               .nickname(questions.get(0).getName())
               .score(totalScore)
               .check(false)
-              .id((long) scoreDto.getQuizid())
+              .id(encryptService.decrypt(scoreDto.getQuizid()))
               .member(questions.get(0).getMember())
               .build();
     }
@@ -75,7 +79,7 @@ public class QuestionServices {
     return new ScoreDto(totalScore, scoreDto.getResult(), scoreDto.getQuizid());
   }
 
-  public QuizDto updateSubmitByNickname(SubmitDto submitDto, Long memberId) {
+  public QuizDto updateSubmitByNickname(SubmitDto submitDto, Long memberId) throws Exception {
 
     Member member =
         memberRepository
@@ -121,6 +125,6 @@ public class QuestionServices {
     quizRepository.save(quiz);
     submitDto.setQuizid(number);
 
-    return new QuizDto((long) number);
+    return new QuizDto(encryptService.encrypt((long) number));
   }
 }
