@@ -2,7 +2,7 @@ package com.example.demo.domain.Qname.dto;
 
 public class ChangeRequest {
   private String name;
-  private int quizid;
+  private String quizid;
 
   public ChangeRequest() {}
 
@@ -14,11 +14,11 @@ public class ChangeRequest {
     this.name = name;
   }
 
-  public int getQuizid() {
+  public String getQuizid() {
     return quizid;
   }
 
-  public void setQuizid(int quizid) {
+  public void setQuizid(String quizid) {
     this.quizid = quizid;
   }
 }
