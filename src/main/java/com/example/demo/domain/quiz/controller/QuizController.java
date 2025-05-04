@@ -51,7 +51,7 @@ public class QuizController {
             .filter(quiz -> quiz.getScore() != null)
             .map(
                 quiz -> {
-                  String value = quizCommandService.getIcon(quiz.getScore());
+                  String value = quizCommandService.getIcon(quiz.getId());
                   Long Score = quizCommandService.getChange(quiz.getScore());
                   return new QuizDto(
                       quiz.getId(), quiz.getCheck(), quiz.getNickname(), Score, value);
