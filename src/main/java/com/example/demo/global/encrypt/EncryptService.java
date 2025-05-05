@@ -1,5 +1,7 @@
 package com.example.demo.global.encrypt;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
@@ -18,7 +20,8 @@ public class EncryptService {
     Cipher cipher = Cipher.getInstance(ALGORITHM);
     cipher.init(Cipher.ENCRYPT_MODE, keySpec);
     byte[] encrypted = cipher.doFinal(id.toString().getBytes());
-    return Base64.getEncoder().encodeToString(encrypted);
+    String base64Encoded = Base64.getEncoder().encodeToString(encrypted);
+    return URLEncoder.encode(base64Encoded, StandardCharsets.UTF_8.toString());
   }
 
   public Long decrypt(String encrypted) throws Exception {

@@ -36,7 +36,8 @@ public class SecurityConfig {
     "/kakao/callback",
     "/health",
     "/ai/name",
-    "/api/v1/quiz/check/**"
+    "/api/v1/quiz/check/**",
+    "/test"
   };
 
   @Bean
