@@ -11,5 +11,8 @@
 -'/src/main/java/demo/domain/s3/S3Controller' : 이미지 업로드
 
 <img width="400" height="750" alt="채점" src="https://github.com/user-attachments/assets/34bbb748-563d-48e0-aa5d-e4074bb34d8a" />
+답변 호출
 <img width="428" height="736" alt="점수 채점" src="https://github.com/user-attachments/assets/968fbcac-3592-4e72-8e3f-ecfbf30ef815" />
+점수 채점
 <img width="426" height="894" alt="문제 호출 및 정답 입력" src="https://github.com/user-attachments/assets/9b4a57f5-b493-4f5d-b4af-167818658f08" />
+문제 호출 및 정답 입력
