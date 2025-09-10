@@ -6,9 +6,9 @@
 - Spring Boot, Java, MySQL, JPA, Gradle
 
 ★My Contribution
--'/src/main/java/demo/domain/Question/controller/QuestionController' : 문제 호출, 답변 제출, 채점, 답변 호출
--'/src/main/java/demo/domain/quiz/controller/QuizController' : 닉네임 변경, 점수 리스트 조회, 점수 조회
--'/src/main/java/demo/domain/s3/S3Controller' : 이미지 업로드
+- '/src/main/java/demo/domain/Question/controller/QuestionController' : 문제 호출, 답변 제출, 채점, 답변 호출 
+- '/src/main/java/demo/domain/quiz/controller/QuizController' : 닉네임 변경, 점수 리스트 조회, 점수 조회 
+- '/src/main/java/demo/domain/s3/S3Controller' : 이미지 업로드 
 
 <img width="400" height="750" alt="채점" src="https://github.com/user-attachments/assets/34bbb748-563d-48e0-aa5d-e4074bb34d8a" />
 답변 호출
